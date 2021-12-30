@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 export const H2 = styled.h2`
-  padding: 2rem 0 2rem 0;
+  padding: 2.5rem 0;
   font-size: 1.5rem;
   font-weight: 600;
 `;
