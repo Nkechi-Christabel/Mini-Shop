@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { GlobalStyle } from "./components/globalStyle";
 
-function App() {
+import Header from "./components/Header";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import ProductListing from "./components/ProductListing";
+import Cart from "./components/Cart";
+import ProductDescription from "./components/ProductDescription";
+import { RootState } from "./redux/store";
+import { useSelector } from "react-redux";
+import CartModal from "./components/CartModal";
+
+const App = () => {
+  const { currentCategoryName } = useSelector(
+    (state: RootState) => state.currencies
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyle />
+      <Router>
+        <Header />
+        <CartModal />
+        <Routes>
+          <Route
+            path={`/${currentCategoryName}`}
+            element={<ProductListing />}
+          />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path={`/${currentCategoryName}/product-description/:id`}
+            element={<ProductDescription />}
+          />
+        </Routes>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
