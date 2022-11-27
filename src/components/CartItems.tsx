@@ -41,7 +41,7 @@ export interface SlideState {
 class CartItems extends Component<IProps, SlideState> {
   state: SlideState = {
     counter: 0,
-    prev: false,
+    prev: true,
     next: true,
   };
   render() {
