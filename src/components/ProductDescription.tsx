@@ -4,23 +4,19 @@ import { connect } from "react-redux";
 import { Params, NavigateFunction } from "react-router-dom";
 import { RootState } from "../redux/store";
 import * as DOMPurify from "dompurify";
+
 import { withRouter } from "./WithRouter";
-import { Data, Items, Price, Products } from "../utils/types";
+import { Data, Price, Products } from "../utils/types";
 import {
   Button,
   Details,
-  // DisplaySuccess,
   ImageBigWrapper,
   ImageSmallWrapper,
   ImageWrapper,
   ProductDetails,
-  // ProductDetailsName,
 } from "./productStyle";
-import // selectedColour,
-// selectedSize,
-"../redux/features/productDescriptionSlice";
 import { addToCart } from "../redux/features/cartSlice";
-import { ItemBrand, ItemName } from "./cartStyle";
+import { ItemBrand, ItemName, Next, Prev, PrevNext } from "./cartStyle";
 import Attribute from "./Attribute";
 
 interface Router {
@@ -33,30 +29,31 @@ interface IProps {
   data: Data;
   currency: string;
   dispatch: Dispatch;
-  // size: string;
-  // colour: string;
-  success?: boolean;
   router?: Router | undefined;
 }
 interface State {
   index: number;
-  clicked: boolean;
+  counter: number;
+  prev: boolean;
+  next: boolean;
 }
 
 class ProductDescription extends Component<IProps, State> {
   state: State = {
     index: 0,
-    clicked: false,
+    counter: 0,
+    prev: false,
+    next: true,
   };
 
   render() {
-    const { data, dispatch, currency, success, router } = this.props;
+    const { data, dispatch, currency, router } = this.props;
 
     const product = data?.category?.products.find(
       (item: Products) => item.id === router?.params?.id
     );
 
-    const inStock = product?.inStock as boolean;
+    const { inStock, gallery } = product as Products;
 
     let clean = DOMPurify.sanitize(product?.description as string);
 
@@ -64,49 +61,39 @@ class ProductDescription extends Component<IProps, State> {
       return { __html: clean };
     }
 
-    // const handleTypeText = () =>
-    //   product?.attributes.map(
-    //     (attr) =>
-    //       attr.type === "text" &&
-    //       attr.items.map((val: Items) => (
-    //         <span
-    //           className={`sizes ${size === val.id ? "selectedSizeColour" : ""}`}
-    //           key={val.id}
-    //           onClick={() => dispatch(selectedSize(val.id))}
-    //         >
-    //           {val.value}
-    //         </span>
-    //       ))
-    //   );
+    let { counter, prev, next } = this.state;
 
-    // const handleTypeColours = () =>
-    //   product?.attributes.map(
-    //     (attr) =>
-    //       attr.type === "swatch" &&
-    //       attr.items.map((val: Items) => (
-    //         <span
-    //           key={val.id}
-    //           style={{
-    //             backgroundColor: val.value,
-    //             border:
-    //               colour === val.id ? "2px solid #5ECE7B" : `1px solid #ccc`,
-    //           }}
-    //           className="colours"
-    //           onClick={() => dispatch(selectedColour(val.id))}
-    //         ></span>
-    //       ))
-    //   );
+    const handlePrev = () => {
+      this.setState({ counter: (counter -= 1) });
+      if (counter < 0) {
+        this.setState({ counter: 0 });
+      }
+      if (counter === 0) {
+        this.setState({ prev: false, next: true });
+      }
+    };
+
+    const handleNext = () => {
+      this.setState({ counter: (counter += 1) });
+
+      if (counter > gallery?.length - 1) {
+        this.setState({ counter: gallery?.length - 1 });
+      }
+
+      if (counter === gallery?.length - 1) {
+        this.setState({ prev: true, next: false });
+      }
+    };
 
     const handleAddToCart = () => {
       dispatch(addToCart(product));
     };
 
     return (
-      <ProductDetails className="container">
-        {/* <DisplaySuccess>{handleSuccessText()}</DisplaySuccess> */}
+      <ProductDetails className="container ">
         <ImageWrapper>
           <ImageSmallWrapper>
-            {product?.gallery.map((link, idx) => (
+            {gallery.map((link, idx) => (
               <img
                 src={link}
                 alt={product?.name}
@@ -118,12 +105,72 @@ class ProductDescription extends Component<IProps, State> {
               />
             ))}
           </ImageSmallWrapper>
-          <ImageBigWrapper>
+          <ImageBigWrapper className="relative">
             <img
               src={product?.gallery[this.state.index]}
-              alt=""
+              alt={product?.name}
               className="image-big"
             />
+            <img
+              src={product?.gallery[this.state.counter]}
+              alt=""
+              className="imageBigMobile"
+            />
+            <PrevNext className="prevNext">
+              <Prev
+                onClick={handlePrev}
+                className={`${prev ? "active" : "disabled"}`}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="24"
+                    height="24"
+                    fill="black"
+                    fillOpacity="0.73"
+                  />
+                  <path
+                    d="M14.25 6.06857L8.625 11.6876L14.25 17.3066"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Prev>
+              <Next
+                onClick={handleNext}
+                className={`${next ? "active" : "disabled"}`}
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="24"
+                    height="24"
+                    transform="matrix(-1 0 0 1 24 0)"
+                    fill="black"
+                    fillOpacity="0.73"
+                  />
+                  <path
+                    d="M9.75 6.06857L15.375 11.6876L9.75 17.3066"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Next>
+            </PrevNext>
           </ImageBigWrapper>
         </ImageWrapper>
         <Details>
@@ -131,15 +178,15 @@ class ProductDescription extends Component<IProps, State> {
           <ItemName>{product?.name}</ItemName>
 
           {product?.attributes.map((attr) => (
-            <Attribute attribute={attr} />
+            <Attribute attribute={attr} product={product} />
           ))}
 
           <p className="price">PRICE:</p>
           {product?.prices.map((price: Price, idx) =>
-            currency.toUpperCase().includes(price.currency.label) ? (
+            currency[0] === price.currency.symbol[0] ? (
               <p
                 className="amount"
-                key={idx}
+                key={data?.category?.products[idx].name}
               >{`${price.currency.symbol}${price.amount}`}</p>
             ) : (
               ""
@@ -148,13 +195,15 @@ class ProductDescription extends Component<IProps, State> {
           <Button
             type="submit"
             inStock={inStock}
-            onClick={() => handleAddToCart()}
+            onClick={handleAddToCart}
             className="bg-primary"
           >
             Add to Cart
           </Button>
-
-          <div dangerouslySetInnerHTML={createMarkup()} />
+          <div
+            className="productDesc"
+            dangerouslySetInnerHTML={createMarkup()}
+          />
         </Details>
       </ProductDetails>
     );
@@ -163,10 +212,7 @@ class ProductDescription extends Component<IProps, State> {
 
 const mapStateToProps = (state: RootState) => ({
   currency: state.currencies.selectedCurrency,
-  // size: state.product.size,
-  // colour: state.product.colour,
   data: state.cart.data,
-  success: state.cart.success,
   cartItems: state.cart.cartItems,
 });
 export default connect(mapStateToProps)(withRouter(ProductDescription));

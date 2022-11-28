@@ -29,19 +29,17 @@ interface IProps {
   item: Products;
   dataDup: Data;
   currency: string;
-  // size: string;
-  // colour: string;
   dispatch: Dispatch;
 }
 
-interface State {
+export interface SlideState {
   counter: number;
   prev: boolean;
   next: boolean;
 }
 
-class CartItems extends Component<IProps, State> {
-  state: State = {
+class CartItems extends Component<IProps, SlideState> {
+  state: SlideState = {
     counter: 0,
     prev: false,
     next: true,
@@ -78,9 +76,9 @@ class CartItems extends Component<IProps, State> {
         <CartDetails>
           <ItemBrand>{brand}</ItemBrand>
           <ItemName>{name}</ItemName>
-          {prices.map((price: Price, idx) =>
-            currency.toUpperCase().includes(price.currency.label) ? (
-              <p className="price" key={idx}>{`${
+          {prices.map((price: Price) =>
+            currency[0] === price.currency.symbol[0] ? (
+              <p className="price" key={item.id}>{`${
                 price.currency.symbol
               }${price.amount.toFixed(2)}`}</p>
             ) : (
@@ -88,7 +86,7 @@ class CartItems extends Component<IProps, State> {
             )
           )}
           {attributes.map((attr) => (
-            <Attribute attribute={attr} />
+            <Attribute attribute={attr} product={item} />
           ))}
 
           <RiDeleteBin3Line
@@ -118,7 +116,7 @@ class CartItems extends Component<IProps, State> {
             <Image src={gallery[counter]} alt={item.name} />
             <PrevNext>
               <Prev
-                onClick={() => handlePrev()}
+                onClick={handlePrev}
                 className={`${prev ? "active" : "disabled"}`}
               >
                 <svg
@@ -144,7 +142,7 @@ class CartItems extends Component<IProps, State> {
                 </svg>
               </Prev>
               <Next
-                onClick={() => handleNext()}
+                onClick={handleNext}
                 className={`${next ? "active" : "disabled"}`}
               >
                 <svg
@@ -180,8 +178,6 @@ class CartItems extends Component<IProps, State> {
 
 const mapStateToProps = (state: RootState) => ({
   currency: state.currencies.selectedCurrency,
-  // size: state.product.size,
-  // colour: state.product.colour,
 });
 
 export default connect(mapStateToProps)(CartItems);

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { gql } from "@apollo/client";
 import { connect } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
-// import { AppDispatch } from "../redux/store";
 import { Query } from "@apollo/client/react/components";
 import { Data, Products } from "../utils/types";
 
@@ -56,12 +55,12 @@ class Category extends Component<IProps> {
     const handleProductsDisplay = (data: Data) => {
       if (currentCategoryName === "all") {
         return data?.category.products.map((item: Products) => (
-          <ProductItem items={item} key={item.id} />
+          <ProductItem item={item} key={item.id} />
         ));
       }
       return data?.category.products
         .filter((item: Products) => item.category === currentCategoryName)
-        .map((item: Products) => <ProductItem items={item} key={item.id} />);
+        .map((item: Products) => <ProductItem item={item} key={item.id} />);
     };
 
     return (
@@ -75,7 +74,7 @@ class Category extends Component<IProps> {
           if (error) console.log(error);
 
           return (
-            <ProductListingWrapper className="container">
+            <ProductListingWrapper className="container padding">
               {" "}
               <H1>{`${
                 currentCategoryName && currentCategoryName[0].toUpperCase()

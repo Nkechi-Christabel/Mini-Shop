@@ -27,8 +27,6 @@ interface IProps {
   item: Products;
   dataDup: Data;
   currency: string;
-  // size: string;
-  // colour: string;
   dispatch: Dispatch;
 }
 
@@ -51,7 +49,7 @@ class CartModalItems extends Component<IProps, State> {
             <ModalItemBrand>{brand}</ModalItemBrand>
             <ItemName>{name}</ItemName>
             {prices.map((price: Price, idx) =>
-              currency.toUpperCase().includes(price.currency.label) ? (
+              currency[0] === price.currency.symbol[0] ? (
                 <p className="price" key={item.id}>{`${
                   price.currency.symbol
                 }${price.amount.toFixed(2)}`}</p>
@@ -60,7 +58,7 @@ class CartModalItems extends Component<IProps, State> {
               )
             )}
             {attributes.map((attr) => (
-              <Attribute attribute={attr} />
+              <Attribute attribute={attr} key={attr.id} product={item} />
             ))}
             <RiDeleteBin3Line
               className="deleteIcon"
@@ -97,8 +95,6 @@ class CartModalItems extends Component<IProps, State> {
 
 const mapStateToProps = (state: RootState) => ({
   currency: state.currencies.selectedCurrency,
-  // size: state.product.size,
-  // colour: state.product.colour,
 });
 
 export default connect(mapStateToProps)(CartModalItems);

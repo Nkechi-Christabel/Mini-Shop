@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Dispatch } from "@reduxjs/toolkit";
+import { connect } from "react-redux";
+
 import {
   BigScreenNav,
   Cart,
@@ -7,29 +10,33 @@ import {
   Logo,
   SmallScreenNav,
 } from "./headerStyle";
-import { Dispatch } from "@reduxjs/toolkit";
-import { connect } from "react-redux";
 
-import {
-  selectCurrency,
-  selectedCategory,
-} from "../redux/features/currencySlice";
+import { selectedCategory } from "../redux/features/currencySlice";
 import { RootState } from "../redux/store";
-import { Products, Data, Price } from "../utils/types";
+import { Products, Data } from "../utils/types";
 import { openModal } from "../redux/features/modalSlice";
+import Select from "./Select";
 
 interface IProps {
   dispatch: Dispatch;
-  currency: string;
   cart: Products[];
   data: Data;
   currentCategoryName: string;
 }
 
-class Header extends Component<IProps> {
+interface State {
+  checked: boolean;
+}
+
+class Header extends Component<IProps, State> {
+  state: State = {
+    checked: false,
+  };
   render() {
-    const { currency, cart, data, dispatch, currentCategoryName } = this.props;
+    const { cart, data, dispatch, currentCategoryName } = this.props;
     const { products } = data.category;
+    const { checked } = this.state;
+
     const categoryNames = [...new Set(products.map((item) => item.category))];
 
     categoryNames.unshift(data.category.name);
@@ -49,10 +56,18 @@ class Header extends Component<IProps> {
       <HeaderNav>
         <div className="container flex navMenu__wrapper">
           <div>
-            <label htmlFor="hamburger" className="hamburger-menu">
+            <label
+              htmlFor="hamburger"
+              className="hamburger-menu block"
+              onClick={() => this.setState({ checked: !checked })}
+            >
               &#9776;
             </label>
-            <input type="checkbox" id="hamburger" className="checkbox hidden" />
+            <input
+              type="checkbox"
+              id="hamburger"
+              className="checkbox hidden "
+            />
             {/* Menu links for big screen */}
             <BigScreenNav>
               <ul>
@@ -60,7 +75,7 @@ class Header extends Component<IProps> {
                   <li>
                     <Link
                       to={`/${el}`}
-                      key={products[idx].id}
+                      key={idx}
                       data-name={el}
                       onClick={(e) => handleCategoryName(e)}
                       className={`${
@@ -124,8 +139,9 @@ class Header extends Component<IProps> {
             </svg>
           </Logo>
           <div className="logo-cart flex">
-            <form action="#">
+            {/* <form action="#">
               <select
+                id="selectTravelCity"
                 name="currencies"
                 value={currency}
                 onChange={(e) =>
@@ -135,15 +151,19 @@ class Header extends Component<IProps> {
                 {data &&
                   data.category.products
                     ?.map((item) => item.prices)[0]
-                    ?.map((price: Price, idx) => (
+                    ?.map((price: Price) => (
                       <option
-                        key={idx}
+                        key={price.currency.label}
                         value={`${price.currency.symbol} ${price.currency.label}`}
                         className="option"
                       >{`${price.currency.symbol} ${price.currency.label}`}</option>
                     ))}
               </select>
-            </form>
+            </form> */}
+
+            <div style={{ margin: "16px", position: "relative" }}>
+              <Select products={products} />
+            </div>
 
             <Cart className="relative" onClick={() => dispatch(openModal())}>
               <svg
@@ -166,17 +186,23 @@ class Header extends Component<IProps> {
                   fill="#43464E"
                 />
               </svg>
-              <p>{cart.reduce((a, b) => a + b.quantity, 0)}</p>
+              {cart.length > 0 && (
+                <span>{cart.reduce((a, b) => a + b.quantity, 0)}</span>
+              )}
             </Cart>
           </div>
         </div>
-        <SmallScreenNav className="smallScreenNav container hidden">
+        <SmallScreenNav
+          className={`smallScreenNav container ${
+            checked ? "block" : "hidden"
+          } `}
+        >
           <ul>
             {categoryNames?.map((el, idx) => (
               <li>
                 <Link
                   to={`/${el}`}
-                  key={products[idx].id}
+                  key={idx}
                   data-name={el}
                   onClick={(e) => handleCategoryName(e)}
                   className={`${
@@ -194,7 +220,6 @@ class Header extends Component<IProps> {
   }
 }
 const mapStateToProps = (state: RootState) => ({
-  currency: state.currencies.selectedCurrency,
   cart: state.cart.cartItems,
   data: state.cart.data,
   currentCategoryName: state.currencies.currentCategoryName,

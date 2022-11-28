@@ -27,16 +27,11 @@ export interface Products {
   inStock: boolean;
   gallery: Array<string>;
   description: string;
-  attributes: [
-    {
-      id: string;
-      name: string;
-      type: string;
-      items: Items[];
-    }
-  ];
+  attributes: Attributes[];
   prices: Price[];
   quantity: number;
+  selectedAttrSwatch: string;
+  selectedAttrText: string;
 }
 
 export interface Data {
@@ -45,38 +40,3 @@ export interface Data {
     products: Products[];
   };
 }
-
-// const cartItems = [
-//   {
-//     id: "",
-//     name: "",
-//     brand: "",
-//     inStock: false,
-//     gallery: [],
-//     description: "",
-//     attributes: [
-//       {
-//         id: "",
-//         name: "",
-//         type: "",
-//         items: [
-//           {
-//             displayValue: "",
-//             value: "",
-//             id: "",
-//           },
-//         ],
-//       },
-//     ],
-//     prices: [
-//       {
-//         currency: {
-//           label: "",
-//           symbol: "",
-//         },
-//         amount: 0,
-//       },
-//     ],
-//     quantity: 0,
-//   },
-// ];

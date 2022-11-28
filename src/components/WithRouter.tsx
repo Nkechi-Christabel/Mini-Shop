@@ -3,19 +3,12 @@ import {
   useLocation,
   useNavigate,
   useParams,
-  Params,
   NavigateFunction,
 } from "react-router-dom";
 
-export interface RouterProps {
-  router: {
-    location: Location;
-    navigate: NavigateFunction;
-    params: Readonly<Params<string>>;
-  };
+export interface Router {
+  navigate: NavigateFunction;
 }
-
-// export type WithRouterProps<T> = T & RouterProps;
 
 export const withRouter = <P extends object>(
   Component: React.ComponentType<P>

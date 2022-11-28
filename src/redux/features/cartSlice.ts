@@ -1,35 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Data, Products } from "../../utils/types";
 
-// interface CartItems {
-//   item;
-// }
+import { Data, Products } from "../../utils/types";
 
 export interface InitialState {
   cartItems: Products[];
-  total: number;
-  size: string;
-  colour: string;
-  success: boolean;
   data: Data;
 }
 
 const initialState: InitialState = {
   cartItems: [],
-  total: 0,
-  size: "",
-  colour: "",
-  success: false,
   data: {
     category: {
       name: "",
       products: [],
     },
   },
-  // isLoading: true,
 };
-
-// console.log("State", initialState.cartItems);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -47,10 +33,6 @@ const cartSlice = createSlice({
           state.cartItems.push({ ...payload, quantity: 1 });
         }
       }
-      // state.success = true;
-    },
-    clearCart: (state) => {
-      state.cartItems = [];
     },
     increaseQuantity: (state, { payload }) => {
       const cartItem = state.cartItems.find((item) => item.id === payload.id);
@@ -61,7 +43,7 @@ const cartSlice = createSlice({
       if (cartItem && dataItem) {
         cartItem.quantity++;
         cartItem.prices.map(
-          (el, i) => (el.amount += dataItem.prices[i].amount)
+          (el, i) => (el.amount = dataItem.prices[i].amount * cartItem.quantity)
         );
       }
     },
@@ -86,11 +68,8 @@ const cartSlice = createSlice({
       const cartItem = state.cartItems.filter((item) => item.id !== payload.id);
       state.cartItems = cartItem;
     },
-    selectedSize: (state, { payload }) => {
-      state.size = payload;
-    },
-    selectedColour: (state, { payload }) => {
-      state.colour = payload;
+    clearCart: (state) => {
+      state.cartItems = [];
     },
   },
 });

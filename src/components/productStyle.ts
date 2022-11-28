@@ -20,16 +20,14 @@ export const H4 = styled.h4`
 `;
 
 export const Image = styled.img`
-  width: 100%;
-  height: auto;
+  max-width: 100%;
+  height: 22rem;
+  object-fit: contain;
 
-  @media screen and (min-width: 768px) {
-    height: 22rem;
-    object-fit: contain;
+  @media screen and (max-width: 567px) {
+    height: auto;
+    object-fit: cover;
   }
-  // @media screen and (max-width: 768px) {
-  //   width: 100%;
-  // }
 `;
 
 export const ProductName = styled.p`
@@ -40,15 +38,15 @@ export const ProductName = styled.p`
 
 export const ProductGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 20rem));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   justify-content: space-between;
   justify-items: center;
   gap: 2rem;
   padding-top: 2.5rem;
 
-  // @media screen and (min-width: 768px) {
-  //   grid-template-columns: repeat(3, 1fr);
-  // }
+  @media screen and (min-width: 800px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 export const Product = styled.div<{ inStock: boolean }>`
@@ -84,7 +82,6 @@ export const Product = styled.div<{ inStock: boolean }>`
 
 const CommonStyle = css`
   font-size: 1.2rem;
-
   padding-bottom: 0.3rem;
 `;
 
@@ -103,28 +100,15 @@ export const AddToCart = styled.div<{ inStock: boolean }>`
   right: 3rem;
   bottom: 4rem;
   cursor: pointer;
-  ${(props) =>
-    props.inStock !== true &&
-    `
-    pointer-events: none;
-  
-  `};
+  pointer-events: ${(props) => (props.inStock !== true ? "none" : "auto")};
 `;
 
 export const ProductDetails = styled.div`
-  padding-top: 3rem;
+  padding-top: 7rem;
   @media screen and (min-width: 768px) {
     display: flex;
     justify-content: space-between;
   }
-`;
-
-export const DisplaySuccess = styled.p`
-  position: absolute;
-  top: 3rem;
-  right: 3rem;
-  background: #fff;
-  border-radius: 2px;
 `;
 
 export const ImageWrapper = styled.div`
@@ -144,9 +128,10 @@ export const ImageSmallWrapper = styled.div`
   @media screen and (min-width: 768px) {
     display: grid;
     gap: 1.5rem;
+    padding: 0.4rem;
 
     .image-small {
-      max-width: 100%;
+      width: 10rem;
       height: 10rem;
       object-fit: contain;
       cursor: pointer;
@@ -156,7 +141,8 @@ export const ImageSmallWrapper = styled.div`
 
 export const ImageBigWrapper = styled.div`
   flex: 2;
-  .image-big {
+  .image-big,
+  .imageBigMobile {
     width: 100%;
     height: auto;
   }
@@ -166,6 +152,16 @@ export const ImageBigWrapper = styled.div`
       width: 100%;
       height: 30rem;
       object-fit: contain;
+    }
+    .prevNext,
+    .imageBigMobile {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .image-big {
+      display: none;
     }
   }
 `;
@@ -216,9 +212,19 @@ export const Details = styled.div`
     line-height: 1.2;
     padding: 0.4rem 0;
   }
-  // ul li {
-  //   display: block;
-  // }
+
+  .productDesc {
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .productDesc:hover {
+    display: block;
+    overflow: visible;
+  }
 `;
 
 export const ProductDetailsName = styled.p<{ fontWeight: string }>`

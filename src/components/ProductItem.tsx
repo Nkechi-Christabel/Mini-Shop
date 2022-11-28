@@ -9,18 +9,20 @@ import { Products, Price } from "../utils/types";
 import { Link } from "react-router-dom";
 
 interface IProps {
-  items: Products;
+  item: Products;
   selectedCurrency: string;
   dispatch: Dispatch;
 }
 
 class ProductItem extends Component<IProps> {
   render() {
-    const { selectedCurrency, dispatch } = this.props;
-    const { name, gallery, inStock, prices, id } = this.props.items;
+    const { selectedCurrency, dispatch, item } = this.props;
+    const { name, gallery, inStock, prices, id } = item;
     const handleToCart = () => {
-      dispatch(addToCart(this.props.items));
+      dispatch(addToCart(this.props.item));
     };
+
+    console.log("A$".split("")[0]);
 
     return (
       <Product inStock={inStock}>
@@ -28,9 +30,9 @@ class ProductItem extends Component<IProps> {
           <Image src={gallery[0]} alt={`${name} image`} />
           <ProductName>{name}</ProductName>
           {prices.map((price: Price, idx) =>
-            selectedCurrency.toUpperCase().includes(price.currency.label) ? (
+             selectedCurrency[0] === price.currency.symbol[0]? (
               <p
-                key={idx}
+                key={item.id}
                 className="price"
               >{`${price.currency.symbol}${price.amount}`}</p>
             ) : (
@@ -38,11 +40,7 @@ class ProductItem extends Component<IProps> {
             )
           )}
         </Link>
-        <AddToCart
-          className="hidden"
-          inStock={inStock}
-          onClick={() => handleToCart()}
-        >
+        <AddToCart className="hidden" inStock={inStock} onClick={handleToCart}>
           <svg
             width="45"
             height="45"

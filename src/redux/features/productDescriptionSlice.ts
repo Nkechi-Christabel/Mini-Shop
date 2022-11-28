@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface InitialState {
-  size: string;
-  colour: string;
+import { Products } from "../../utils/types";
+interface InitialState {
+  item: Products[];
 }
 
 const initialState: InitialState = {
-  size: "",
-  colour: "",
+  item: [],
 };
 
 const itemDetailsSlice = createSlice({
@@ -15,14 +13,32 @@ const itemDetailsSlice = createSlice({
   initialState,
   reducers: {
     selectedSize: (state, { payload }) => {
-      state.size = payload;
+      const { val, product } = payload;
+      const existingItem = state.item.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        existingItem.selectedAttrText = val;
+      } else {
+        state.item.push({ ...product, selectedAttrText: val });
+      }
     },
     selectedColour: (state, { payload }) => {
-      state.colour = payload;
+      const { val, product } = payload;
+      const existingItem = state.item.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        existingItem.selectedAttrSwatch = val;
+      } else {
+        state.item.push({ ...product, selectedAttrSwatch: val });
+      }
+    },
+    resetSelectedItems: (state) => {
+      state.item = [];
     },
   },
 });
 
-export const { selectedSize, selectedColour } = itemDetailsSlice.actions;
+export const { selectedSize, selectedColour, resetSelectedItems } =
+  itemDetailsSlice.actions;
 
 export default itemDetailsSlice.reducer;

@@ -6,18 +6,36 @@ import {
   selectedSize,
 } from "../redux/features/productDescriptionSlice";
 import { RootState } from "../redux/store";
-import { Attributes } from "../utils/types";
+import { Attributes, Products } from "../utils/types";
 
 interface IProps {
   attribute: Attributes;
-  colour: string;
-  size: string;
   dispatch: Dispatch;
+  product: Products;
+  selectedItem: Products[];
+  // selectedAttrSwatch?: keyof Products;
+  // selectedAttrText?: keyof Products;
 }
+
+// interface KeyValue {
+//   [key: string]: any;
+// }
 
 class Attribute extends Component<IProps> {
   render() {
-    const { attribute, colour, size, dispatch } = this.props;
+    const {
+      attribute,
+      dispatch,
+      product,
+      selectedItem,
+    } = this.props;
+    const matchProductToState = selectedItem?.find(
+      (el) => el?.id === product?.id
+    )?.selectedAttrSwatch;
+
+    const matchProductToStateText = selectedItem?.find(
+      (el) => el?.id === product?.id
+    )?.selectedAttrText;
 
     return (
       <div>
@@ -27,26 +45,32 @@ class Attribute extends Component<IProps> {
         >{`${attribute.name.toUpperCase()}:`}</p>
         <div>
           {attribute.type === "swatch" &&
-            attribute.items.map((val) => (
+            attribute.items.map((val, idx) => (
               <span
+                onClick={() =>
+                  dispatch(selectedColour({ val: val.id, product }))
+                }
                 className="colours"
                 style={{
                   backgroundColor: val.value,
                   border:
-                    colour === val.id ? "2px solid #5ECE7B" : `1px solid #ccc`,
+                    matchProductToState === val.id
+                      ? "2px solid #5ECE7B"
+                      : `1px solid #ccc`,
                 }}
-                key={val.id}
-                onClick={() => dispatch(selectedColour(val.id))}
+                key={product?.name}
               ></span>
             ))}
         </div>
         <div>
           {attribute.type === "text" &&
-            attribute.items.map((val) => (
+            attribute.items.map((val, idx) => (
               <span
-                className={`sizes ${size === val.id ? "selected-size" : ""}`}
-                key={val.id}
-                onClick={() => dispatch(selectedSize(val.id))}
+                className={`sizes ${
+                  matchProductToStateText === val.id ? "selected-size" : ""
+                } `}
+                key={product?.id}
+                onClick={() => dispatch(selectedSize({ val: val.id, product }))}
               >
                 {val.value}
               </span>
@@ -58,9 +82,7 @@ class Attribute extends Component<IProps> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  size: state.product.size,
-  colour: state.product.colour,
-  success: state.cart.success,
+  selectedItem: state.product.item,
 });
 
 export default connect(mapStateToProps)(Attribute);

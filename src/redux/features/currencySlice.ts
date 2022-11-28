@@ -6,7 +6,7 @@ interface Currency {
 }
 
 const initialState: Currency = {
-  selectedCurrency: "$ usd",
+  selectedCurrency: "$",
   currentCategoryName: "all",
 };
 

@@ -42,7 +42,6 @@ body, html {
     color: #1D1F22;
     line-height: 1;
     letter-spacing: 1px;
-    min-height: 100vh;
     }
 
   body::-webkit-scrollbar {
@@ -77,9 +76,9 @@ body, html {
     margin: 0 auto;
   }
 
-  .text-primary {
-    color: #5ECE7B;
-  }
+  // .text-primary {
+  //   color: #5ECE7B;
+  // }
 
   .bg-primary {
     background-color: #5ECE7B;
@@ -105,12 +104,18 @@ body, html {
     border-top: 1px solid #e5e5e5;
   }
 
-  // .block {
-  //   display: block;
-  // }
+  .block {
+    display: block;
+  }
 
   .relative {
     position: relative
   }
+
+  .padding {
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+  }
+
 
 `;

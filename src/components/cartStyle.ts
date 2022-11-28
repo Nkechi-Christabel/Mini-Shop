@@ -140,7 +140,7 @@ height: auto;
 
 export const PrevNext = styled.div`
   display: flex;
-  justify-content: space-between !important;
+
   position: absolute;
   bottom: 1rem;
   right: 3rem;
@@ -152,6 +152,7 @@ export const PrevNext = styled.div`
 
   .active {
     pointer-events: auto;
+    cursor: pointer;
     opacity: 1;
   }
 `;
@@ -173,22 +174,24 @@ export const Next = styled.div``;
 
 const button = css`
   font-size: 0.9rem;
-  font-weight: 500;
-  padding: 0.6rem 5rem;
+  font-weight: 600;
+  padding: 0.8rem 5rem;
   color: #fff;
   margin: 0.4rem 0;
   cursor: pointer;
+
+  :hover {
+    background: #32cd32;
+  }
 `;
 
 export const Order = styled.button`
   ${button}
-  :hover {
-    background: #0f6550;
-  }
 `;
 
 export const Tax = styled.p`
   ${TaxQtyOrder}
+  padding-top: 1.2rem;
 `;
 export const Quantity = styled.p`
   ${TaxQtyOrder}
@@ -200,8 +203,8 @@ export const Total = styled.p`
 // Modal
 export const Modal = styled.div<{ isOpen: boolean }>`
   display: ${(props) => (props.isOpen === true ? "block" : "none")};
-  position: absolute;
-  top: 4.5rem;
+  position: fixed;
+  top: 4.4rem;
   right: 0;
   bottom: 0;
   left: 0;
@@ -214,10 +217,12 @@ export const Modal = styled.div<{ isOpen: boolean }>`
 
 export const ModalItemsWrapper = styled.div`
   position: absolute;
-  right: 3rem;
   top: 0;
-  padding: 1rem;
+  padding: 1rem 1rem 5rem;
   background: #fff;
+  @media screen and (min-width: 450px) {
+    right: 3rem;
+  }
 `;
 
 export const H5 = styled.h5`
@@ -228,8 +233,11 @@ export const H5 = styled.h5`
 `;
 
 export const ModalItem = styled(CartItem)`
-  display: flex;
   border-bottom: 0;
+  @media screen and (min-width: 450px) {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const ModalItemBrand = styled(ItemBrand)`
@@ -240,7 +248,7 @@ export const ModalDetails = styled(CartDetails)`
   font-size: 0.9rem;
 
   .price {
-    font-weight: 600;
+    font-weight: 700;
   }
   .attr-name {
     font-weight: 300;
@@ -254,10 +262,6 @@ export const ModalDetails = styled(CartDetails)`
   .colours {
     padding: 0.6rem 0.7rem;
   }
-  .sizes,
-  clours {
-    pointer-events: none;
-  }
 
   .delete {
     ${Delete}
@@ -265,28 +269,39 @@ export const ModalDetails = styled(CartDetails)`
     justify-content: flex-end;
   }
 `;
+export const ModalImageWrapper = styled(CartImageWrapper)`
+  @media screen and (min-width: 450px) {
+    order: 2 !important;
+  }
+`;
 
-export const ModalImage = styled.img`
-  width: 9rem;
-  height: 11rem;
-  object-fit: contain;
+export const ModalImage = styled(Image)`
+  @media screen and (min-width: 450px) {
+    width: 11rem;
+    height: 12rem;
+    object-fit: contain;
+  }
 `;
 export const ModalImageQuantityWrapper = styled(ImageQuantityWrapper)`
- display: flex;
- justify-content: space-between;
-  order 2;
+   order: 1;
+
+  @media screen and (min-width: 450px) {
+     order 2;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 export const IncreaseDecreaseModal = styled(IncreaseDecreaseWrapper)`
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0;
   margin-right: 1rem;
-  height: 70%;
-`;
 
-export const ModalImageWrapper = styled(CartImageWrapper)`
-  order 2;
+  @media screen and (min-width: 450px) {
+    flex-direction: column;
+  }
+
+  @media screen and (max-width: 450px) {
+    padding: 2rem 0;
+  }
 `;
 
 export const OverlayTotal = styled.div`
@@ -301,6 +316,7 @@ export const CheckViewWrapper = styled.div`
 export const ViewBag = styled.button`
   ${button}
   padding: .8rem 2rem;
+  margin-right: 0.6rem;
   border: 1px solid #000;
   color: #000;
 `;
@@ -308,4 +324,18 @@ export const ViewBag = styled.button`
 export const Checkout = styled.button`
   ${button}
   padding: .8rem 2rem;
+`;
+
+export const Button = styled.button`
+  ${button}
+  margin: 1rem 0;
+  padding: 0.8rem 5rem;
+`;
+
+export const EmptyCartText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
 `;
