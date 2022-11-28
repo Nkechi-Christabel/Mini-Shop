@@ -97,6 +97,7 @@ export const ImageQuantityWrapper = styled.div`
 export const IncreaseDecreaseWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  font-size: 1.2rem;
   margin-right: 2rem;
 
   .increase,
