@@ -83,23 +83,23 @@ export const SmallScreenNav = styled.div`
 `;
 
 export const Logo = styled.div`
-  margin-top: -0.6rem;
+  margin-top: -0.5rem;
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 530px) {
     display: none;
   }
 `;
 
 export const SelectWrapper = styled.div`
-  margin-top: -1rem;
-
+  position: relative;
+  margin-right: 0.7rem;
   .open {
     display: block !important;
   }
 `;
 export const SelectedBox = styled.div`
   display: flex;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   width: 4rem;
   cursor: pointer;
   span {
