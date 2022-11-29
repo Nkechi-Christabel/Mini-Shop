@@ -31,7 +31,6 @@ interface IProps {
 
 class CartModal extends Component<IProps> {
   render() {
-    const dataDup = this.props.data;
     const {
       cartItems,
       dispatch,
@@ -76,7 +75,7 @@ class CartModal extends Component<IProps> {
             {` ${cartItems.reduce((a, b) => a + b.quantity, 0)} ${qtyText}`}
           </H5>
           {cartItems.map((item) => (
-            <CartModalItems key={item.id} item={item} dataDup={dataDup} />
+            <CartModalItems key={item.id} item={item} />
           ))}
 
           <OverlayTotal className="flex">

@@ -25,7 +25,6 @@ import Attribute from "./Attribute";
 
 interface IProps {
   item: Products;
-  dataDup: Data;
   currency: string;
   dispatch: Dispatch;
 }
