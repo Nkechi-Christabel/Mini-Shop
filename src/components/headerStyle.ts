@@ -5,8 +5,7 @@ export const HeaderNav = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  padding: 2rem 0;
-
+  padding: 2rem 0 1rem;
   background: #fff;
   z-index: 4;
   // box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -18,7 +17,7 @@ export const HeaderNav = styled.header`
   }
 
   .hamburger-menu {
-    font-size: 2rem;
+    font-size: 2.1rem;
     padding-right: 0.5rem;
     margin-top: -0.4rem;
     cursor: pointer;
@@ -141,6 +140,7 @@ export const SelectBody = styled.div`
 `;
 
 export const Cart = styled.div`
+  margin-top: -0.2rem;
   cursor: pointer;
 
   span {
@@ -148,7 +148,7 @@ export const Cart = styled.div`
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 1.1rem;
+    bottom: 1.5rem;
     left: 0.9rem;
     width: 1rem;
     height: 1rem;
@@ -156,5 +156,11 @@ export const Cart = styled.div`
     color: #fff;
     background: #000;
     border-radius: 50%;
+  }
+
+  @media screen and (max-width: 530px) {
+    span {
+      bottom: 1rem;
+    }
   }
 `;

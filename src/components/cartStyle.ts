@@ -213,16 +213,16 @@ export const Modal = styled.div<{ isOpen: boolean }>`
   width: 100%;
   overflow: auto;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 20;
+  z-index: 10;
 `;
 
 export const ModalItemsWrapper = styled.div`
   position: absolute;
   top: 0;
-  padding: 1rem 1rem 5rem;
+  padding: 1rem 1rem 8rem;
   background: #fff;
   @media screen and (min-width: 450px) {
-    right: 3rem;
+    right: 4rem;
   }
 `;
 

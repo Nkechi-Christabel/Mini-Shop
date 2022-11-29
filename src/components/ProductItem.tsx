@@ -22,15 +22,13 @@ class ProductItem extends Component<IProps> {
       dispatch(addToCart(this.props.item));
     };
 
-    console.log("A$".split("")[0]);
-
     return (
       <Product inStock={inStock}>
         <Link to={`product-description/${id}`}>
           <Image src={gallery[0]} alt={`${name} image`} />
           <ProductName>{name}</ProductName>
           {prices.map((price: Price, idx) =>
-             selectedCurrency[0] === price.currency.symbol[0]? (
+            selectedCurrency[0] === price.currency.symbol[0] ? (
               <p
                 key={item.id}
                 className="price"

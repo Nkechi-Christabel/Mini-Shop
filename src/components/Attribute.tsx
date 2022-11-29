@@ -13,22 +13,11 @@ interface IProps {
   dispatch: Dispatch;
   product: Products;
   selectedItem: Products[];
-  // selectedAttrSwatch?: keyof Products;
-  // selectedAttrText?: keyof Products;
 }
-
-// interface KeyValue {
-//   [key: string]: any;
-// }
 
 class Attribute extends Component<IProps> {
   render() {
-    const {
-      attribute,
-      dispatch,
-      product,
-      selectedItem,
-    } = this.props;
+    const { attribute, dispatch, product, selectedItem } = this.props;
     const matchProductToState = selectedItem?.find(
       (el) => el?.id === product?.id
     )?.selectedAttrSwatch;

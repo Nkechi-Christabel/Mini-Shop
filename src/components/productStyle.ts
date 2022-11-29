@@ -6,7 +6,7 @@ export const ProductListingWrapper = styled.div`
 `;
 
 export const H1 = styled.h1`
-  margin: 2.5rem 0 1rem;
+  padding: 3rem 0 1rem;
   font-size: 1.6rem;
   font-weight: 400;
 `;
