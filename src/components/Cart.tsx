@@ -7,7 +7,7 @@ import { withRouter, Router } from "./WithRouter";
 import { Data, Products } from "../utils/types";
 import { resetSelectedItems } from "../redux/features/productDescriptionSlice";
 import { closeModal } from "../redux/features/modalSlice";
-import { clearCart } from "../redux/features/cartSlice";
+import { calculateTotals, clearCart } from "../redux/features/cartSlice";
 
 import { EmptyCartText, H2, Order, Quantity, Tax, Total } from "./cartStyle";
 import { Button } from "./cartStyle";
@@ -20,9 +20,24 @@ interface IProps {
   router?: Router | undefined;
   currentCategoryName: string;
   selectedAttrItems: Products[];
+  tax: number;
+  total: number;
+  currency: string;
 }
 
 class Cart extends Component<IProps> {
+  componentDidMount() {
+    this.props.dispatch(calculateTotals(this.props.currency));
+  }
+
+  componentDidUpdate(prevProps: IProps) {
+    if (
+      this.props.cartItems.reduce((a, b) => a + b.quantity, 0) !==
+      prevProps.cartItems.reduce((a: number, b: Products) => a + b.quantity, 0)
+    ) {
+      this.props.dispatch(calculateTotals(this.props.currency));
+    }
+  }
   render() {
     const dataDup = this.props.data;
     const {
@@ -31,17 +46,13 @@ class Cart extends Component<IProps> {
       router,
       dispatch,
       selectedAttrItems,
+      tax,
+      total,
+      currency,
     } = this.props;
     const matchSelectedItemsToCartItems = selectedAttrItems.filter((item) =>
       cartItems.some((cartItem) => item.id === cartItem.id)
     );
-
-    let subTotal = cartItems
-      .map((item) => item.prices.reduce((a, b) => a + b.amount, 0))
-      .reduce((a, b) => a + b, 0);
-
-    const tax = (subTotal * 21) / 100;
-    const total = subTotal + tax;
 
     const handleOrder = () => {
       if (matchSelectedItemsToCartItems.length === cartItems.length) {
@@ -75,7 +86,7 @@ class Cart extends Component<IProps> {
               ))}
             </div>
             <Tax>
-              Tax 21%: <span>{`$${tax.toFixed(2)}`}</span>
+              Tax 21%: <span>{`${currency}${tax.toFixed(2)}`}</span>
             </Tax>
             <Quantity>
               Quantity:{" "}
@@ -83,7 +94,7 @@ class Cart extends Component<IProps> {
             </Quantity>
             <Total>
               Total:
-              <span>{`$${total.toFixed(2)}`} </span>
+              <span>{`${currency}${total.toFixed(2)}`} </span>
             </Total>
             <Order className="bg-primary" onClick={() => handleOrder()}>
               ORDER
@@ -99,6 +110,9 @@ const mapStateToProps = (state: RootState) => ({
   cartItems: state.cart.cartItems,
   currentCategoryName: state.currencies.currentCategoryName,
   selectedAttrItems: state.product.item,
+  tax: state.cart.tax,
+  total: state.cart.total,
+  currency: state.currencies.selectedCurrency,
 });
 
 export default connect(mapStateToProps)(withRouter(Cart));

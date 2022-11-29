@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RootState } from "../redux/store";
 import { RiDeleteBin3Line } from "react-icons/ri";
 
-import { Products, Price, Data } from "../utils/types";
+import { Products, Price } from "../utils/types";
 
 import {
   ItemName,

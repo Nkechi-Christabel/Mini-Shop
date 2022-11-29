@@ -5,6 +5,8 @@ import { Data, Products } from "../../utils/types";
 export interface InitialState {
   cartItems: Products[];
   data: Data;
+  total: number;
+  tax: number;
 }
 
 const initialState: InitialState = {
@@ -15,6 +17,8 @@ const initialState: InitialState = {
       products: [],
     },
   },
+  total: 0,
+  tax: 0,
 };
 
 const cartSlice = createSlice({
@@ -71,6 +75,21 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
+    calculateTotals: (state, { payload }) => {
+      const matchSelectedCurrencyToAmount = state.cartItems.flatMap((item) =>
+        item.prices.filter(
+          (price) => price.currency.symbol === payload && price.amount
+        )
+      );
+
+      let subTotal = matchSelectedCurrencyToAmount.reduce(
+        (a, b) => a + b.amount,
+        0
+      );
+
+      state.tax = (subTotal * 21) / 100;
+      state.total = subTotal + state.tax;
+    },
   },
 });
 
@@ -81,6 +100,7 @@ export const {
   increaseQuantity,
   decreaseQuantity,
   removeItem,
+  calculateTotals,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -17,7 +17,7 @@ import {
   OverlayTotal,
   ViewBag,
 } from "./cartStyle";
-import { clearCart } from "../redux/features/cartSlice";
+import { calculateTotals, clearCart } from "../redux/features/cartSlice";
 
 interface IProps {
   data: Data;
@@ -26,10 +26,25 @@ interface IProps {
   isOpen: boolean;
   router?: Router | undefined;
   currentCategoryName: string;
+  currency: string;
   selectedAttrItems: Products[];
+  total: number;
 }
 
 class CartModal extends Component<IProps> {
+  componentDidMount() {
+    this.props.dispatch(calculateTotals(this.props.currency));
+  }
+
+  componentDidUpdate(prevProps: IProps) {
+    if (
+      this.props.cartItems.reduce((a, b) => a + b.quantity, 0) !==
+      prevProps.cartItems.reduce((a: number, b: Products) => a + b.quantity, 0)
+    ) {
+      this.props.dispatch(calculateTotals(this.props.currency));
+    }
+  }
+
   render() {
     const {
       cartItems,
@@ -38,6 +53,8 @@ class CartModal extends Component<IProps> {
       currentCategoryName,
       router,
       selectedAttrItems,
+      total,
+      currency,
     } = this.props;
 
     const matchSelectedItemsToCartItems = selectedAttrItems.filter((item) =>
@@ -45,13 +62,6 @@ class CartModal extends Component<IProps> {
     );
 
     const qtyText = cartItems.length < 2 ? "Item" : "Items";
-
-    let subTotal = cartItems
-      .map((item) => item.prices.reduce((a, b) => a + b.amount, 0))
-      .reduce((a, b) => a + b, 0);
-
-    const tax = (subTotal * 21) / 100;
-    const total = subTotal + tax;
 
     const handleCheckout = () => {
       if (matchSelectedItemsToCartItems.length === cartItems.length) {
@@ -80,7 +90,7 @@ class CartModal extends Component<IProps> {
 
           <OverlayTotal className="flex">
             <span>Total:</span>
-            <span>{`$${total.toFixed(2)}`} </span>
+            <span>{`${currency}${total.toFixed(2)}`} </span>
           </OverlayTotal>
           <CheckViewWrapper className="flex">
             <Link to="/cart">
@@ -101,6 +111,8 @@ const mapStateToProps = (state: RootState) => ({
   isOpen: state.modal.isOpen,
   currentCategoryName: state.currencies.currentCategoryName,
   selectedAttrItems: state.product.item,
+  total: state.cart.total,
+  currency: state.currencies.selectedCurrency,
 });
 
 export default connect(mapStateToProps)(withRouter(CartModal));

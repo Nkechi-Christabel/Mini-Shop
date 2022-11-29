@@ -43,10 +43,11 @@ class Select extends React.Component<IProps, State> {
         <SelectBody className={`${isOpen ? "block" : "hidden"}`}>
           <ul>
             {products
-              .map((item) => item.prices)[0]
-              .map((price: Price, idx: number) => (
+              ?.map((item) => item.prices)[0]
+              ?.map((price: Price, idx: number) => (
                 <li
                   onClick={(e) => handleItemClick(`${price.currency.symbol}`)}
+                  key={idx}
                 >
                   {" "}
                   {`${price.currency.symbol} ${price.currency.label}`}

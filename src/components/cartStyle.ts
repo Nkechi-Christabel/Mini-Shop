@@ -219,7 +219,7 @@ export const Modal = styled.div<{ isOpen: boolean }>`
 export const ModalItemsWrapper = styled.div`
   position: absolute;
   top: 0;
-  padding: 1rem 1rem 8rem;
+  padding: 1rem 1rem 5rem;
   background: #fff;
   @media screen and (min-width: 450px) {
     right: 4rem;
