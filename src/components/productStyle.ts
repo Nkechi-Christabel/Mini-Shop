@@ -100,7 +100,7 @@ export const AddToCart = styled.div<{ inStock: boolean }>`
   right: 3rem;
   bottom: 4rem;
   cursor: pointer;
-  pointer-events: ${(props) => (props.inStock !== true ? "none" : "auto")};
+  pointer-events: ${(props) => (props.inStock === true ? "auto" : "none")};
 `;
 
 export const ProductDetails = styled.div`
@@ -242,10 +242,14 @@ export const Button = styled.button<{ inStock: boolean }>`
   color: #fff;
   border-radius: 1px;
   cursor: pointer;
+
   ${(props) =>
     props.inStock !== true &&
     `
     pointer-events: none;
     opacity: 0.4;
   `};
+  :hover {
+    background: #32cd32;
+  }
 `;

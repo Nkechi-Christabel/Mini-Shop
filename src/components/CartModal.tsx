@@ -38,8 +38,8 @@ class CartModal extends Component<IProps> {
 
   componentDidUpdate(prevProps: IProps) {
     if (
-      this.props.cartItems.reduce((a, b) => a + b.quantity, 0) !==
-      prevProps.cartItems.reduce((a: number, b: Products) => a + b.quantity, 0)
+      this.props.cartItems.map((item) => item) !==
+      prevProps.cartItems.map((item) => item)
     ) {
       this.props.dispatch(calculateTotals(this.props.currency));
     }
