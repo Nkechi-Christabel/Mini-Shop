@@ -104,7 +104,7 @@ export const AddToCart = styled.div<{ inStock: boolean }>`
 `;
 
 export const ProductDetails = styled.div`
-  padding-top: 7rem;
+  padding-top: 8rem;
   @media screen and (min-width: 768px) {
     display: flex;
     justify-content: space-between;
@@ -149,7 +149,6 @@ export const ImageBigWrapper = styled.div`
   @media screen and (min-width: 768px) {
     padding-right: 1rem;
     .image-big {
-      width: 100%;
       height: 30rem;
       object-fit: contain;
     }

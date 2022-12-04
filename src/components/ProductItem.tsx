@@ -19,7 +19,7 @@ class ProductItem extends Component<IProps> {
     const { selectedCurrency, dispatch, item } = this.props;
     const { name, gallery, inStock, prices, id } = item;
     const handleToCart = () => {
-      dispatch(addToCart(this.props.item));
+      dispatch(addToCart(item));
     };
 
     return (

@@ -7,7 +7,6 @@ import { RootState } from "../redux/store";
 import { Data, Products } from "../utils/types";
 import { withRouter, Router } from "./WithRouter";
 import { resetSelectedItems } from "../redux/features/productDescriptionSlice";
-import CartModalItems from "./CartModalItems";
 import {
   Checkout,
   CheckViewWrapper,
@@ -18,6 +17,7 @@ import {
   ViewBag,
 } from "./cartStyle";
 import { calculateTotals, clearCart } from "../redux/features/cartSlice";
+import CartModalItems from "./CartModalItems";
 
 interface IProps {
   data: Data;
@@ -67,14 +67,12 @@ class CartModal extends Component<IProps> {
       if (matchSelectedItemsToCartItems.length === cartItems.length) {
         alert("Order Successfully placed");
         dispatch(clearCart());
-        dispatch(closeModal());
         dispatch(resetSelectedItems());
-        router?.navigate(`/${currentCategoryName}`);
       } else {
         alert("Please select attributes");
-        dispatch(closeModal());
-        router?.navigate(`/${currentCategoryName}`);
       }
+      dispatch(closeModal());
+      router?.navigate(`/${currentCategoryName}`);
     };
 
     return (

@@ -75,6 +75,7 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
+ 
     calculateTotals: (state, { payload }) => {
       const matchSelectedCurrencyToAmount = state.cartItems.flatMap((item) =>
         item.prices.filter(

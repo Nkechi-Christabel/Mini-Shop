@@ -32,6 +32,14 @@ const itemDetailsSlice = createSlice({
         state.item.push({ ...product, selectedAttrSwatch: val });
       }
     },
+    // checkAttributes: (state) => {
+    //   const typeSwatch = state.cartItems.map((item) =>
+    //     item.attributes.filter((attr) => attr.type === "swatch" && item)
+    //   );
+    //   const typeText = state.cartItems.map((item) =>
+    //     item.attributes.filter((attr) => attr.type === "text" && item)
+    //   );
+    // },
     resetSelectedItems: (state) => {
       state.item = [];
     },
