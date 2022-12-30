@@ -69,6 +69,7 @@ class Category extends Component<IProps> {
     return (
       <Query
         query={GET_CATEGORY}
+        fetchPolicy="no-cache"
         onCompleted={(data: Data) => handleData(data)}
       >
         {(result: QueryResult<any, OperationVariables>) => {
