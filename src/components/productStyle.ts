@@ -75,6 +75,7 @@ export const Product = styled.div<{ inStock: boolean }>`
      transform: translate(-50%, -50%);
      font-size: 1.3rem;
      font-weight: lighter;
+     text-align: center;
     }
 
   `};
