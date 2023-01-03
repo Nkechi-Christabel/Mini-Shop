@@ -26,7 +26,7 @@ export const ImageContainer = styled.div`
 
 export const Image = styled.img`
   max-width: 100%;
-  height: 21rem;
+  height: 19rem;
   object-fit: contain;
 
   @media screen and (max-width: 573px) {
@@ -45,7 +45,7 @@ export const ProductName = styled.p`
 export const ProductGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem 1.5rem;
   padding-top: 2.5rem;
   padding-bottom: 2rem;
 `;
@@ -111,7 +111,6 @@ export const AddToCart = styled.div<{ inStock: boolean }>`
   right: 6%;
   bottom: 12%;
   transform: translate(-6%, -12%)
-  // cursor: pointer;
   pointer-events: ${(props) => (props.inStock === true ? "auto" : "none")};
   z-index: 500;
 `;
