@@ -54,6 +54,7 @@ export const Product = styled.div<{ inStock: boolean }>`
   width: 46%;
   position: relative;
   padding: 0.8rem;
+  cursor: pointer;
 
   :hover {
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
@@ -110,8 +111,8 @@ export const AddToCart = styled.div<{ inStock: boolean }>`
   right: 6%;
   bottom: 12%;
   transform: translate(-6%, -12%)
-  cursor: pointer;
-  // pointer-events: ${(props) => (props.inStock === true ? "none" : "auto")};
+  // cursor: pointer;
+  pointer-events: ${(props) => (props.inStock === true ? "auto" : "none")};
   z-index: 500;
 `;
 

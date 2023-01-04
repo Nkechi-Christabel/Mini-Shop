@@ -65,9 +65,9 @@ class ProductItem extends Component<IProps, State> {
     return (
       <Product inStock={inStock}>
         <Link to={`product-description/${id}`}>
-          {/* <ImageContainer> */}
+        
           <Image src={gallery[0]} alt={`${name} image`} />
-          {/* </ImageContainer> */}
+        
         </Link>
         <ProductName>{name}</ProductName>
 
