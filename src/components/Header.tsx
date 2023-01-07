@@ -61,9 +61,6 @@ class Header extends Component<IProps, State> {
       ]),
     ];
 
-    console.log("filtered names", categoryNamesFiltered);
-    console.log("Category names", categoryNames);
-
     const handleCategoryName = (
       e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
     ) => {
