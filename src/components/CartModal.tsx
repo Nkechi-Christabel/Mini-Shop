@@ -63,6 +63,8 @@ class CartModal extends Component<IProps> {
       router?.navigate(`/${currentCategoryName}`);
     };
 
+    console.log("Cart items", cartItems);
+
     return (
       <Modal isOpen={isOpen} onClick={() => dispatch(closeModal())}>
         <ModalItemsWrapper onClick={(e) => e.stopPropagation()}>

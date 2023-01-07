@@ -58,8 +58,9 @@ class ProductItem extends Component<IProps, State> {
           return {
             ...attr,
             items: attr.items.map((item) => item),
-            selectedSize: attr.type === "text" ? attr.items[0].id : null,
-            selectedColor: attr.type === "swatch" ? attr.items[0].id : null,
+            selectedSize: attr.type === "text" ? attr.items[0].id : undefined,
+            selectedColor:
+              attr.type === "swatch" ? attr.items[0].id : undefined,
           };
         }),
       };
