@@ -126,6 +126,7 @@ export const SelectBody = styled.div`
     background: #fff;
     cursor: pointer;
     filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19));
+    z-index: 4;
   }
 
   li {

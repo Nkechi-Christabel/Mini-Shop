@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import { RootState } from "../redux/store";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { AddToCart, Image, Product, ProductName } from "./productStyle";
+import { v4 as uuid } from "uuid";
+import {
+  AddToCart,
+  Image,
+  ImageContainer,
+  Product,
+  ProductName,
+} from "./productStyle";
 
 import { addToCart } from "../redux/features/cartSlice";
 import { Products, Price } from "../utils/types";
@@ -14,31 +21,77 @@ interface IProps {
   dispatch: Dispatch;
 }
 
-class ProductItem extends Component<IProps> {
+interface State {
+  productUpdateItemId?: Products;
+}
+
+class ProductItem extends Component<IProps, State> {
+  state: State = {};
+  componentDidMount() {
+    this.setState({
+      productUpdateItemId: {
+        ...this.props.item,
+        attributes: this.props.item?.attributes.map((attr) => {
+          return {
+            ...attr,
+            items: attr.items.map((item) => {
+              return {
+                ...item,
+                id: `${attr.name}${item.id}`,
+              };
+            }),
+          };
+        }),
+      },
+    });
+  }
+
   render() {
     const { selectedCurrency, dispatch, item } = this.props;
     const { name, gallery, inStock, prices, id } = item;
-    const handleToCart = () => {
-      dispatch(addToCart(item));
+    const { productUpdateItemId } = this.state;
+
+    const handleToCart = async () => {
+      const addSelectedAttr = {
+        ...productUpdateItemId,
+        attributes: productUpdateItemId?.attributes.map((attr) => {
+          return {
+            ...attr,
+            items: attr.items.map((item) => item),
+            selectedSize: attr.type === "text" ? attr.items[0].id : null,
+            selectedColor: attr.type === "swatch" ? attr.items[0].id : null,
+          };
+        }),
+      };
+
+      dispatch(addToCart(addSelectedAttr));
     };
 
     return (
       <Product inStock={inStock}>
         <Link to={`product-description/${id}`}>
-          <Image src={gallery[0]} alt={`${name} image`} />
-          <ProductName>{name}</ProductName>
-          {prices.map((price: Price, idx) =>
-            selectedCurrency[0] === price.currency.symbol[0] ? (
-              <p
-                key={item.id}
-                className="price"
-              >{`${price.currency.symbol}${price.amount}`}</p>
-            ) : (
-              ""
-            )
-          )}
+          <ImageContainer>
+            <Image src={gallery[0]} alt={`${name} image`} />
+          </ImageContainer>
         </Link>
-        <AddToCart className="hidden" inStock={inStock} onClick={handleToCart}>
+        <ProductName>{name}</ProductName>
+
+        {prices.map((price: Price) =>
+          selectedCurrency[0] === price.currency.symbol[0] ? (
+            <p
+              key={uuid()}
+              className="price"
+            >{`${price.currency.symbol}${price.amount}`}</p>
+          ) : (
+            ""
+          )
+        )}
+
+        <AddToCart
+          className="hidden"
+          inStock={inStock}
+          onClick={() => handleToCart()}
+        >
           <svg
             width="45"
             height="45"

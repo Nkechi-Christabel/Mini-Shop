@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { Data, Products } from "../../utils/types";
+import { v4 as uuid } from "uuid";
 
 export interface InitialState {
   cartItems: Products[];
@@ -17,6 +18,7 @@ const initialState: InitialState = {
       products: [],
     },
   },
+
   total: 0,
   tax: 0,
 };
@@ -29,24 +31,47 @@ const cartSlice = createSlice({
       state.data = payload;
     },
     addToCart: (state, { payload }) => {
-      const itemInCart = state.cartItems.find((item) => item.id === payload.id);
-      if (payload.inStock) {
+      const itemInCart = state.cartItems.find(
+        (item) =>
+          item.name === payload.name &&
+          item.attributes.every(
+            (attr, i) =>
+              attr.selectedSize === payload.attributes[i].selectedSize
+          ) &&
+          item.attributes.every(
+            (attr, i) =>
+              attr.selectedColor === payload.attributes[i].selectedColor
+          )
+      );
+
+      const dataItem = state.data.category.products.find(
+        (item) => item.name === payload.name
+      );
+
+      if (payload?.inStock) {
         if (itemInCart) {
           itemInCart.quantity++;
+          dataItem &&
+            itemInCart?.prices.map(
+              (el, i) =>
+                (el.amount = dataItem.prices[i].amount * itemInCart.quantity)
+            );
         } else {
+          payload.id = uuid();
           state.cartItems.push({ ...payload, quantity: 1 });
         }
       }
     },
     increaseQuantity: (state, { payload }) => {
       const cartItem = state.cartItems.find((item) => item.id === payload.id);
+
       const dataItem = state.data.category.products.find(
-        (item) => item.id === payload.id
+        (item) => item.name === payload.name
       );
 
       if (cartItem && dataItem) {
-        cartItem.quantity++;
-        cartItem.prices.map(
+        cartItem && cartItem.quantity++;
+        cartItem?.prices.map(
           (el, i) => (el.amount = dataItem.prices[i].amount * cartItem.quantity)
         );
       }
@@ -54,9 +79,11 @@ const cartSlice = createSlice({
 
     decreaseQuantity: (state, { payload }) => {
       const cartItem = state.cartItems.find((item) => item.id === payload.id);
+
       const dataItem = state.data.category.products.find(
-        (item) => item.id === payload.id
+        (item) => item.name === payload.name
       );
+
       if (cartItem && dataItem) {
         if (cartItem?.quantity === 1) {
           cartItem.quantity = 1;
@@ -75,7 +102,7 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
- 
+
     calculateTotals: (state, { payload }) => {
       const matchSelectedCurrencyToAmount = state.cartItems.flatMap((item) =>
         item.prices.filter(

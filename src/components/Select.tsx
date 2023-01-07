@@ -1,5 +1,5 @@
 import React from "react";
-import { Price, Products } from "../utils/types";
+import { Currency } from "../utils/types";
 import { IoIosArrowUp } from "react-icons/io";
 import { Dispatch } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
@@ -10,8 +10,8 @@ import { SelectBody, SelectedBox, SelectWrapper } from "./headerStyle";
 // import "./styles.css";
 
 interface IProps {
-  products: Products[];
   currency: string;
+  allCurrencies: Currency[];
   dispatch: Dispatch;
 }
 
@@ -25,10 +25,9 @@ class Select extends React.Component<IProps, State> {
   };
 
   render() {
-    const { products, currency, dispatch } = this.props;
+    const { currency, allCurrencies, dispatch } = this.props;
     const { isOpen } = this.state;
     const toggleDropdown = () => this.setState({ isOpen: !isOpen });
-
     const handleItemClick = (value: string) => {
       dispatch(selectCurrency(value));
       this.setState({ isOpen: false });
@@ -42,17 +41,15 @@ class Select extends React.Component<IProps, State> {
         </SelectedBox>
         <SelectBody className={`${isOpen ? "block" : "hidden"}`}>
           <ul>
-            {products
-              ?.map((item) => item.prices)[0]
-              ?.map((price: Price, idx: number) => (
-                <li
-                  onClick={(e) => handleItemClick(`${price.currency.symbol}`)}
-                  key={idx}
-                >
-                  {" "}
-                  {`${price.currency.symbol} ${price.currency.label}`}
-                </li>
-              ))}
+            {allCurrencies?.map((currency: Currency, idx: number) => (
+              <li
+                onClick={(e) => handleItemClick(`${currency.symbol}`)}
+                key={currency.symbol}
+              >
+                {" "}
+                {`${currency.symbol} ${currency.label}`}
+              </li>
+            ))}
           </ul>
         </SelectBody>
       </SelectWrapper>
@@ -62,6 +59,7 @@ class Select extends React.Component<IProps, State> {
 
 const mapStateToProps = (state: RootState) => ({
   currency: state.currencies.selectedCurrency,
+  allCurrencies: state.currencies.currencyData,
 });
 
 export default connect(mapStateToProps)(Select);

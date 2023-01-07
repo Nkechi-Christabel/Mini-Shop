@@ -86,7 +86,7 @@ class CartItems extends Component<IProps, SlideState> {
             )
           )}
           {attributes.map((attr) => (
-            <Attribute attribute={attr} product={item} />
+            <Attribute attribute={attr}  />
           ))}
 
           <RiDeleteBin3Line

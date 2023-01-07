@@ -1,12 +1,11 @@
-import { Dispatch } from "@reduxjs/toolkit";
 import React, { Component } from "react";
+import { Dispatch } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
 import { Params, NavigateFunction } from "react-router-dom";
 import { RootState } from "../redux/store";
 import * as DOMPurify from "dompurify";
-
 import { withRouter } from "./WithRouter";
-import { Data, Price, Products } from "../utils/types";
+import { Data, Price, Products, Attributes, Items } from "../utils/types";
 import {
   Button,
   Details,
@@ -28,14 +27,21 @@ interface Router {
 interface IProps {
   data: Data;
   currency: string;
+  cartItems: Products[];
   dispatch: Dispatch;
   router?: Router | undefined;
 }
-interface State {
+export interface State {
   index: number;
   counter: number;
   prev: boolean;
   next: boolean;
+  selectAttrProduct: {
+    product?: Products;
+    size?: string;
+    color?: string;
+  };
+  attributeName: string;
 }
 
 class ProductDescription extends Component<IProps, State> {
@@ -44,24 +50,64 @@ class ProductDescription extends Component<IProps, State> {
     counter: 0,
     prev: false,
     next: true,
+    selectAttrProduct: {},
+    attributeName: "",
   };
 
   render() {
     const { data, dispatch, currency, router } = this.props;
 
-    const product = data?.category?.products.find(
-      (item: Products) => item.id === router?.params?.id
-    );
+    let { counter, prev, next, selectAttrProduct, attributeName } = this.state;
 
-    const { inStock, gallery } = product as Products;
+    let product = data?.category?.products.find(
+      (item: Products) => item?.id === router?.params?.id
+    ) as Products;
 
-    let clean = DOMPurify.sanitize(product?.description as string);
+    const newProduct = {
+      ...product,
+      attributes: product?.attributes.map((attr: Attributes, i) => {
+        return {
+          ...attr,
+          selectedSize:
+            attributeName === attr.name
+              ? selectAttrProduct.size
+              : selectAttrProduct.product?.attributes[i].selectedSize,
+          selectedColor:
+            attributeName === attr.name
+              ? selectAttrProduct.color
+              : selectAttrProduct.product?.attributes[i].selectedColor,
+          items: attr.items.map((item: Items) => {
+            return {
+              ...item,
+              id: `${attr.name}${item.id}`,
+            };
+          }),
+        };
+      }),
+    };
+
+    const handleSelectedProduct = (
+      color: string | undefined,
+      size: string | undefined,
+      attrName: string
+    ) => {
+      this.setState({
+        selectAttrProduct: {
+          product: { ...newProduct },
+          size,
+          color,
+        },
+        attributeName: attrName,
+      });
+    };
+
+    const { inStock, gallery } = newProduct;
+
+    let clean = DOMPurify.sanitize(newProduct?.description as string);
 
     function createMarkup() {
       return { __html: clean };
     }
-
-    let { counter, prev, next } = this.state;
 
     const handlePrev = () => {
       this.setState({ counter: (counter -= 1) });
@@ -86,7 +132,16 @@ class ProductDescription extends Component<IProps, State> {
     };
 
     const handleAddToCart = () => {
-      dispatch(addToCart(product));
+      if (
+        newProduct.attributes.some(
+          (attr) =>
+            attr.selectedSize === undefined && attr.selectedColor === undefined
+        )
+      ) {
+        alert("Please select attributes");
+      } else {
+        dispatch(addToCart(newProduct));
+      }
     };
 
     return (
@@ -96,7 +151,7 @@ class ProductDescription extends Component<IProps, State> {
             {gallery.map((link, idx) => (
               <img
                 src={link}
-                alt={product?.name}
+                alt={newProduct?.name}
                 key={idx}
                 onClick={() => this.setState({ index: idx })}
                 className={`image-small ${
@@ -107,12 +162,12 @@ class ProductDescription extends Component<IProps, State> {
           </ImageSmallWrapper>
           <ImageBigWrapper className="relative">
             <img
-              src={product?.gallery[this.state.index]}
-              alt={product?.name}
+              src={newProduct?.gallery[this.state.index]}
+              alt={newProduct?.name}
               className="image-big"
             />
             <img
-              src={product?.gallery[this.state.counter]}
+              src={newProduct?.gallery[this.state.counter]}
               alt=""
               className="imageBigMobile"
             />
@@ -174,19 +229,26 @@ class ProductDescription extends Component<IProps, State> {
           </ImageBigWrapper>
         </ImageWrapper>
         <Details>
-          <ItemBrand>{product?.brand}</ItemBrand>
-          <ItemName>{product?.name}</ItemName>
+          <ItemBrand>{newProduct?.brand}</ItemBrand>
+          <ItemName>{newProduct?.name}</ItemName>
 
-          {product?.attributes.map((attr) => (
-            <Attribute attribute={attr} product={product} />
+          {newProduct?.attributes.map((attr) => (
+            <Attribute
+              key={attr.id}
+              attribute={attr}
+              setAttribute={handleSelectedProduct}
+              // size={selectAttrProduct.size}
+              // color={selectAttrProduct.color}
+              selectedProduct={selectAttrProduct}
+            />
           ))}
 
           <p className="price">PRICE:</p>
-          {product?.prices.map((price: Price, idx) =>
+          {newProduct?.prices.map((price: Price, idx) =>
             currency[0] === price.currency.symbol[0] ? (
               <p
                 className="amount"
-                key={data?.category?.products[idx].name}
+                key={idx}
               >{`${price.currency.symbol}${price.amount}`}</p>
             ) : (
               ""

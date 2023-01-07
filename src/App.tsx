@@ -25,6 +25,7 @@ class App extends Component<IProps> {
           <Header />
           <CartModal />
           <Routes>
+            <Route path={"/"} element={<ProductListing />} />
             <Route
               path={`/${currentCategoryName}`}
               element={<ProductListing />}

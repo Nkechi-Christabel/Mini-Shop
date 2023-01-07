@@ -3,6 +3,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { connect } from "react-redux";
 import { RootState } from "../redux/store";
 import { RiDeleteBin3Line } from "react-icons/ri";
+import { v4 as uuid } from "uuid";
 
 import { Products, Price } from "../utils/types";
 
@@ -49,7 +50,7 @@ class CartModalItems extends Component<IProps, State> {
             <ItemName>{name}</ItemName>
             {prices.map((price: Price, idx) =>
               currency[0] === price.currency.symbol[0] ? (
-                <p className="price" key={item.id}>{`${
+                <p className="price" key={uuid()}>{`${
                   price.currency.symbol
                 }${price.amount.toFixed(2)}`}</p>
               ) : (
@@ -57,7 +58,7 @@ class CartModalItems extends Component<IProps, State> {
               )
             )}
             {attributes.map((attr) => (
-              <Attribute attribute={attr} key={attr.id} product={item} />
+              <Attribute attribute={attr} key={attr.id} />
             ))}
             <RiDeleteBin3Line
               className="deleteIcon"

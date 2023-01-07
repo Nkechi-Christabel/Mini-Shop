@@ -5,7 +5,6 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { RootState } from "../redux/store";
 import { withRouter, Router } from "./WithRouter";
 import { Data, Products } from "../utils/types";
-import { resetSelectedItems } from "../redux/features/productDescriptionSlice";
 import { closeModal } from "../redux/features/modalSlice";
 import { calculateTotals, clearCart } from "../redux/features/cartSlice";
 
@@ -19,7 +18,6 @@ interface IProps {
   dispatch: Dispatch;
   router?: Router | undefined;
   currentCategoryName: string;
-  selectedAttrItems: Products[];
   tax: number;
   total: number;
   currency: string;
@@ -45,27 +43,20 @@ class Cart extends Component<IProps> {
       currentCategoryName,
       router,
       dispatch,
-      selectedAttrItems,
       tax,
       total,
       currency,
     } = this.props;
-    const matchSelectedItemsToCartItems = selectedAttrItems.filter((item) =>
-      cartItems.some((cartItem) => item.id === cartItem.id)
-    );
+
+    // const matchSelectedItemsToCartItems = selectedAttrItems.filter((item) =>
+    //   cartItems.some((cartItem) => item.id === cartItem.id)
+    // );
 
     const handleOrder = () => {
-      if (matchSelectedItemsToCartItems.length === cartItems.length) {
-        alert("Order Successfully placed");
-        dispatch(clearCart());
-        dispatch(closeModal());
-        dispatch(resetSelectedItems());
-        router?.navigate(`/${currentCategoryName}`);
-      } else {
-        alert("Please select attributes");
-        dispatch(closeModal());
-        router?.navigate(`/${currentCategoryName}`);
-      }
+      alert("Order Successfully placed");
+      dispatch(clearCart());
+      dispatch(closeModal());
+      router?.navigate(`/${currentCategoryName}`);
     };
 
     return (
@@ -109,7 +100,6 @@ const mapStateToProps = (state: RootState) => ({
   data: state.cart.data,
   cartItems: state.cart.cartItems,
   currentCategoryName: state.currencies.currentCategoryName,
-  selectedAttrItems: state.product.item,
   tax: state.cart.tax,
   total: state.cart.total,
   currency: state.currencies.selectedCurrency,

@@ -1,20 +1,23 @@
 import React, { Component } from "react";
-import { gql } from "@apollo/client";
+import { gql, OperationVariables, QueryResult } from "@apollo/client";
 import { connect } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Query } from "@apollo/client/react/components";
-import { Data, Products } from "../utils/types";
+import { AllData, Products } from "../utils/types";
 
 import ProductItem from "./ProductItem";
 import { H1, H4, ProductGrid, ProductListingWrapper } from "./productStyle";
 import { getData } from "../redux/features/cartSlice";
 import { RootState } from "../redux/store";
+import { currencies } from "../redux/features/currencySlice";
 
 const GET_CATEGORY = gql`
-  query GETCATEGORY {
+  query CategoryAndCurrencies {
     category {
       name
       products {
+        __typename
+        __typename @skip(if: true)
         category
         id
         name
@@ -41,6 +44,10 @@ const GET_CATEGORY = gql`
         }
       }
     }
+    currencies {
+      label
+      symbol
+    }
   }
 `;
 
@@ -52,7 +59,7 @@ interface IProps {
 class Category extends Component<IProps> {
   render() {
     const { dispatch, currentCategoryName } = this.props;
-    const handleProductsDisplay = (data: Data) => {
+    const handleProductsDisplay = (data: AllData) => {
       if (currentCategoryName === "all") {
         return data?.category.products.map((item: Products) => (
           <ProductItem item={item} key={item.id} />
@@ -63,15 +70,21 @@ class Category extends Component<IProps> {
         .map((item: Products) => <ProductItem item={item} key={item.id} />);
     };
 
+    const handleData = (data: any) => {
+      dispatch(getData(data));
+      dispatch(currencies(data.currencies));
+    };
+
     return (
       <Query
         query={GET_CATEGORY}
-        onCompleted={(data: Products[]) => dispatch(getData(data))}
+        onCompleted={(data: AllData) => handleData(data)}
       >
-        {(result: any) => {
+        {(result: QueryResult<any, OperationVariables>) => {
           const { data, loading, error } = result;
+
           if (loading) return <H4>Loading...</H4>;
-          if (error) console.log(error);
+          if (error) return <H4>error</H4>;
 
           return (
             <ProductListingWrapper className="container padding">
@@ -79,7 +92,12 @@ class Category extends Component<IProps> {
               <H1>{`${
                 currentCategoryName && currentCategoryName[0].toUpperCase()
               }${currentCategoryName.slice(1)}`}</H1>
-              <ProductGrid>{handleProductsDisplay(data)}</ProductGrid>
+              <ProductGrid>
+                {handleProductsDisplay(data) ||
+                  data?.category.products.map((item: Products) => (
+                    <ProductItem item={item} key={item.id} />
+                  ))}
+              </ProductGrid>
             </ProductListingWrapper>
           );
         }}

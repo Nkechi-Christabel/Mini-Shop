@@ -76,9 +76,6 @@ body, html {
     margin: 0 auto;
   }
 
-  // .text-primary {
-  //   color: #5ECE7B;
-  // }
 
   .bg-primary {
     background-color: #5ECE7B;

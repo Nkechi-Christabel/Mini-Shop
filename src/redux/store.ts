@@ -14,14 +14,12 @@ import storage from "redux-persist/lib/storage";
 import currencyReducer from "./features/currencySlice";
 import cartReducer from "./features/cartSlice";
 import dataReducer from "./features/modalSlice";
-import productReducer from "./features/productDescriptionSlice";
 import modalReducer from "./features/modalSlice";
 
 const rootReducers = combineReducers({
   currencies: currencyReducer,
   cart: cartReducer,
   data: dataReducer,
-  product: productReducer,
   modal: modalReducer,
 });
 

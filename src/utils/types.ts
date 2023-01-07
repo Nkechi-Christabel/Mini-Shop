@@ -6,6 +6,11 @@ export interface Price {
   amount: number;
 }
 
+export interface Currency {
+  label: string;
+  symbol: string;
+}
+
 export interface Items {
   displayValue: string;
   value: string;
@@ -17,6 +22,8 @@ export interface Attributes {
   name: string;
   type: string;
   items: Items[];
+  selectedSize: string | undefined;
+  selectedColor: string | undefined;
 }
 
 export interface Products {
@@ -30,13 +37,32 @@ export interface Products {
   attributes: Attributes[];
   prices: Price[];
   quantity: number;
-  selectedAttrSwatch: string;
-  selectedAttrText: string;
+  size: string;
+  color: string;
 }
 
 export interface Data {
   category: {
     name: string;
     products: Products[];
+  };
+}
+
+export interface AllData {
+  category: {
+    name: string;
+    products: Products[];
+  };
+  currencies: Currency[];
+}
+
+export interface CategoryNames {
+  category: {
+    name: string;
+    input: [
+      {
+        category: string;
+      }
+    ];
   };
 }

@@ -6,7 +6,7 @@ import { closeModal } from "../redux/features/modalSlice";
 import { RootState } from "../redux/store";
 import { Data, Products } from "../utils/types";
 import { withRouter, Router } from "./WithRouter";
-import { resetSelectedItems } from "../redux/features/productDescriptionSlice";
+
 import {
   Checkout,
   CheckViewWrapper,
@@ -16,7 +16,7 @@ import {
   OverlayTotal,
   ViewBag,
 } from "./cartStyle";
-import { calculateTotals, clearCart } from "../redux/features/cartSlice";
+import { calculateTotals } from "../redux/features/cartSlice";
 import CartModalItems from "./CartModalItems";
 
 interface IProps {
@@ -27,7 +27,6 @@ interface IProps {
   router?: Router | undefined;
   currentCategoryName: string;
   currency: string;
-  selectedAttrItems: Products[];
   total: number;
 }
 
@@ -52,32 +51,21 @@ class CartModal extends Component<IProps> {
       isOpen,
       currentCategoryName,
       router,
-      selectedAttrItems,
       total,
       currency,
     } = this.props;
 
-    const matchSelectedItemsToCartItems = selectedAttrItems.filter((item) =>
-      cartItems.some((cartItem) => item.id === cartItem.id)
-    );
-
     const qtyText = cartItems.length < 2 ? "Item" : "Items";
 
     const handleCheckout = () => {
-      if (matchSelectedItemsToCartItems.length === cartItems.length) {
-        alert("Order Successfully placed");
-        dispatch(clearCart());
-        dispatch(resetSelectedItems());
-      } else {
-        alert("Please select attributes");
-      }
+      alert("Order Successfully placed");
       dispatch(closeModal());
       router?.navigate(`/${currentCategoryName}`);
     };
 
     return (
-      <Modal isOpen={isOpen}>
-        <ModalItemsWrapper>
+      <Modal isOpen={isOpen} onClick={() => dispatch(closeModal())}>
+        <ModalItemsWrapper onClick={(e) => e.stopPropagation()}>
           <H5>
             <span>My bag,</span>
             {` ${cartItems.reduce((a, b) => a + b.quantity, 0)} ${qtyText}`}
@@ -108,7 +96,6 @@ const mapStateToProps = (state: RootState) => ({
   cartItems: state.cart.cartItems,
   isOpen: state.modal.isOpen,
   currentCategoryName: state.currencies.currentCategoryName,
-  selectedAttrItems: state.product.item,
   total: state.cart.total,
   currency: state.currencies.selectedCurrency,
 });

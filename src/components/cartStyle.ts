@@ -207,13 +207,13 @@ export const Modal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 4.4rem;
   right: 0;
-  bottom: 0;
+  bottom: 6rem;
   left: 0;
   height: 100%;
   width: 100%;
   overflow: auto;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  z-index: 2;
 `;
 
 export const ModalItemsWrapper = styled.div`
@@ -221,8 +221,9 @@ export const ModalItemsWrapper = styled.div`
   top: 0;
   padding: 1rem 1rem 5rem;
   background: #fff;
-  @media screen and (min-width: 450px) {
-    right: 4rem;
+  @media screen and (min-width: 500px) {
+    right: 7%;
+    transform: translate(-7%, 0);
   }
 `;
 
@@ -278,8 +279,8 @@ export const ModalImageWrapper = styled(CartImageWrapper)`
 
 export const ModalImage = styled(Image)`
   @media screen and (min-width: 450px) {
-    width: 11rem;
-    height: 12rem;
+    width: 10rem;
+    height: 11rem;
     object-fit: contain;
   }
 `;

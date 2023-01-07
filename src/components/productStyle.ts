@@ -19,12 +19,18 @@ export const H4 = styled.h4`
   height: 100vh;
 `;
 
+export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const Image = styled.img`
   max-width: 100%;
-  height: 22rem;
+  height: 21rem;
   object-fit: contain;
 
-  @media screen and (max-width: 567px) {
+  @media screen and (max-width: 573px) {
+    width: 100%;
     height: auto;
     object-fit: cover;
   }
@@ -33,23 +39,19 @@ export const Image = styled.img`
 export const ProductName = styled.p`
   font-size: 1.2rem;
   font-weight: 300;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
 `;
 
 export const ProductGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  justify-content: space-between;
-  justify-items: center;
-  gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   padding-top: 2.5rem;
-
-  @media screen and (min-width: 800px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  padding-bottom: 2rem;
 `;
 
 export const Product = styled.div<{ inStock: boolean }>`
+  width: 46%;
   position: relative;
   padding: 0.8rem;
 
@@ -78,6 +80,14 @@ export const Product = styled.div<{ inStock: boolean }>`
   .price{
     font-weight: 600;
   }
+
+   @media screen and (min-width: 800px) {
+    width: 31%;
+  }
+
+   @media screen and (max-width: 573px) {
+    width: 100%;
+  }
 `;
 
 const CommonStyle = css`
@@ -97,8 +107,9 @@ export const ItemName = styled.p`
 
 export const AddToCart = styled.div<{ inStock: boolean }>`
   position: absolute;
-  right: 3rem;
-  bottom: 4rem;
+  right: 6%;
+  bottom: 12%;
+  transform: translate(-6%, -12%)
   cursor: pointer;
   pointer-events: ${(props) => (props.inStock === true ? "auto" : "none")};
 `;
@@ -124,15 +135,17 @@ export const ImageSmallWrapper = styled.div`
 
   .activeImage {
     border: 1px solid #ccc;
+    padding: 0.4rem;
   }
   @media screen and (min-width: 768px) {
     display: grid;
     gap: 1.5rem;
-    padding: 0.4rem;
+    height: 30rem;
+    overflow-y: scroll;
 
     .image-small {
-      width: 10rem;
-      height: 10rem;
+      width: 9rem;
+      height: 9rem;
       object-fit: contain;
       cursor: pointer;
     }
@@ -213,16 +226,23 @@ export const Details = styled.div`
   }
 
   .productDesc {
-    display: -webkit-box;
-    -webkit-line-clamp: 10;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 10;
+    // -webkit-box-orient: vertical;
+    // overflow-: hidden;
+    height: 15rem;
+    overflow-y: scroll;
     cursor: pointer;
   }
 
-  .productDesc:hover {
-    display: block;
-    overflow: visible;
+  // .productDesc:hover {
+  //   display: block;
+  //   overflow: visible;
+  // }
+
+  .productDesc {
+    height: 15rem;
+    overflow-y: scroll;
   }
 `;
 
