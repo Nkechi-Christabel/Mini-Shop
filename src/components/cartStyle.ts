@@ -45,7 +45,7 @@ export const CartDetails = styled.div`
   .sizes,
   .colours {
     display: inline-block;
-    padding: 0.7rem 1rem;
+    padding: 0.8rem;
     margin-right: 0.5rem;
     border: 1px solid #000;
     pointer-events: none;

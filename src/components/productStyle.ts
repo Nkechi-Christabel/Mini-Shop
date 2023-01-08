@@ -200,7 +200,7 @@ export const Details = styled.div`
   .sizes,
   .colours {
     display: inline-block;
-    padding: 0.7rem 1rem;
+    padding: 0.8rem;
     margin: 0.3rem 0.5rem 0 0;
     border: 1px solid #000;
     cursor: pointer;
