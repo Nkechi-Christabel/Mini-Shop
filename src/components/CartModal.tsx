@@ -57,13 +57,13 @@ class CartModal extends Component<IProps> {
 
     const qtyText = cartItems.length < 2 ? "Item" : "Items";
 
+    console.log("Cart items are", cartItems);
+
     const handleCheckout = () => {
       alert("Order Successfully placed");
       dispatch(closeModal());
       router?.navigate(`/${currentCategoryName}`);
     };
-
-    console.log("Cart items", cartItems);
 
     return (
       <Modal isOpen={isOpen} onClick={() => dispatch(closeModal())}>

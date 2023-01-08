@@ -3,13 +3,7 @@ import { RootState } from "../redux/store";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { v4 as uuid } from "uuid";
-import {
-  AddToCart,
-  Image,
-  ImageContainer,
-  Product,
-  ProductName,
-} from "./productStyle";
+import { AddToCart, Image, Product, ProductName } from "./productStyle";
 
 import { addToCart } from "../redux/features/cartSlice";
 import { Products, Price } from "../utils/types";
@@ -51,7 +45,7 @@ class ProductItem extends Component<IProps, State> {
     const { name, gallery, inStock, prices, id } = item;
     const { productUpdateItemId } = this.state;
 
-    const handleToCart = async () => {
+    const handleToCart = () => {
       const addSelectedAttr = {
         ...productUpdateItemId,
         attributes: productUpdateItemId?.attributes.map((attr) => {
@@ -71,9 +65,9 @@ class ProductItem extends Component<IProps, State> {
     return (
       <Product inStock={inStock}>
         <Link to={`product-description/${id}`}>
-          <ImageContainer>
-            <Image src={gallery[0]} alt={`${name} image`} />
-          </ImageContainer>
+          {/* <ImageContainer> */}
+          <Image src={gallery[0]} alt={`${name} image`} />
+          {/* </ImageContainer> */}
         </Link>
         <ProductName>{name}</ProductName>
 

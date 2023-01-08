@@ -14,7 +14,6 @@ import { currencies } from "../redux/features/currencySlice";
 const GET_CATEGORY = gql`
   query CategoryAndCurrencies {
     category {
-      name
       products {
         __typename
         __typename @skip(if: true)

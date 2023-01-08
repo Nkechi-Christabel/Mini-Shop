@@ -69,11 +69,11 @@ class ProductDescription extends Component<IProps, State> {
         return {
           ...attr,
           selectedSize:
-            attributeName === attr.name
+            attributeName === attr.name && attr.type === "text"
               ? selectAttrProduct.size
               : selectAttrProduct.product?.attributes[i].selectedSize,
           selectedColor:
-            attributeName === attr.name
+            attributeName === attr.name && attr.type === "swatch"
               ? selectAttrProduct.color
               : selectAttrProduct.product?.attributes[i].selectedColor,
           items: attr.items.map((item: Items) => {

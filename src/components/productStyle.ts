@@ -111,7 +111,8 @@ export const AddToCart = styled.div<{ inStock: boolean }>`
   bottom: 12%;
   transform: translate(-6%, -12%)
   cursor: pointer;
-  pointer-events: ${(props) => (props.inStock === true ? "auto" : "none")};
+  // pointer-events: ${(props) => (props.inStock === true ? "none" : "auto")};
+  z-index: 500;
 `;
 
 export const ProductDetails = styled.div`

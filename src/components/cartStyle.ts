@@ -222,8 +222,8 @@ export const ModalItemsWrapper = styled.div`
   padding: 1rem 1rem 5rem;
   background: #fff;
   @media screen and (min-width: 500px) {
-    right: 7%;
-    transform: translate(-7%, 0);
+    right: 8%;
+    transform: translate(-8%, 0);
   }
 `;
 
