@@ -3,20 +3,17 @@ import { gql, OperationVariables, QueryResult } from "@apollo/client";
 import { connect } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Query } from "@apollo/client/react/components";
-import { AllData, Products } from "../utils/types";
+import { Data, Products } from "../utils/types";
 
 import ProductItem from "./ProductItem";
 import { H1, H4, ProductGrid, ProductListingWrapper } from "./productStyle";
 import { getData } from "../redux/features/cartSlice";
 import { RootState } from "../redux/store";
-import { currencies } from "../redux/features/currencySlice";
 
 const GET_CATEGORY = gql`
   query CategoryAndCurrencies {
     category {
       products {
-        __typename
-        __typename @skip(if: true)
         category
         id
         name
@@ -43,10 +40,6 @@ const GET_CATEGORY = gql`
         }
       }
     }
-    currencies {
-      label
-      symbol
-    }
   }
 `;
 
@@ -58,7 +51,7 @@ interface IProps {
 class Category extends Component<IProps> {
   render() {
     const { dispatch, currentCategoryName } = this.props;
-    const handleProductsDisplay = (data: AllData) => {
+    const handleProductsDisplay = (data: Data) => {
       if (currentCategoryName === "all") {
         return data?.category.products.map((item: Products) => (
           <ProductItem item={item} key={item.id} />
@@ -71,13 +64,12 @@ class Category extends Component<IProps> {
 
     const handleData = (data: any) => {
       dispatch(getData(data));
-      dispatch(currencies(data.currencies));
     };
 
     return (
       <Query
         query={GET_CATEGORY}
-        onCompleted={(data: AllData) => handleData(data)}
+        onCompleted={(data: Data) => handleData(data)}
       >
         {(result: QueryResult<any, OperationVariables>) => {
           const { data, loading, error } = result;

@@ -16,10 +16,15 @@ import {
 
 import {
   categoryNamesData,
+  currencies,
   selectedCategory,
 } from "../redux/features/currencySlice";
 import { RootState } from "../redux/store";
-import { Products, CategoryNames } from "../utils/types";
+import {
+  Products,
+  CategoryNamesAndCurrencies,
+  CategoryNames,
+} from "../utils/types";
 import { openModal } from "../redux/features/modalSlice";
 import Select from "./Select";
 import Brand from "../assets/Brand.png";
@@ -29,8 +34,13 @@ const GET_CATEGORYNAMES = gql`
     category {
       name
       input: products {
+        id
         category
       }
+    }
+    currencies {
+      label
+      symbol
     }
   }
 `;
@@ -50,16 +60,22 @@ class Header extends Component<IProps, State> {
   state: State = {
     checked: false,
   };
+
   render() {
     const { cart, dispatch, currentCategoryName, categoryNames } = this.props;
     const { checked } = this.state;
 
     const categoryNamesFiltered = [
       ...new Set([
-        categoryNames.category.name,
-        ...categoryNames.category.input.map((el) => el.category),
+        categoryNames?.name,
+        ...categoryNames?.input.map((el) => el.category),
       ]),
     ];
+
+    const handleCategoryNamesCurrency = (data: CategoryNamesAndCurrencies) => {
+      dispatch(categoryNamesData(data.category));
+      dispatch(currencies(data.currencies));
+    };
 
     const handleCategoryName = (
       e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -76,8 +92,8 @@ class Header extends Component<IProps, State> {
       <>
         <Query
           query={GET_CATEGORYNAMES}
-          onCompleted={(data: CategoryNames) =>
-            dispatch(categoryNamesData(data))
+          onCompleted={(data: CategoryNamesAndCurrencies) =>
+            handleCategoryNamesCurrency(data)
           }
         >
           {(result: QueryResult<any, OperationVariables>) => {

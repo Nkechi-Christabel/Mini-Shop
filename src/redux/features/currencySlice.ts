@@ -11,10 +11,8 @@ interface CurrencyAndCategory {
 const initialState: CurrencyAndCategory = {
   currencyData: [],
   categoryNamesData: {
-    category: {
-      name: "",
-      input: [{ category: "" }],
-    },
+    name: "",
+    input: [{ category: "" }],
   },
   selectedCurrency: "$",
   currentCategoryName: "all",

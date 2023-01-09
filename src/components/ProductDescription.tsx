@@ -148,7 +148,7 @@ class ProductDescription extends Component<IProps, State> {
       <ProductDetails className="container ">
         <ImageWrapper>
           <ImageSmallWrapper>
-            {gallery.map((link, idx) => (
+            {gallery?.map((link, idx) => (
               <img
                 src={link}
                 alt={newProduct?.name}

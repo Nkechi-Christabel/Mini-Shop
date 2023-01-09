@@ -56,7 +56,7 @@ export interface AllData {
   currencies: Currency[];
 }
 
-export interface CategoryNames {
+export interface CategoryNamesAndCurrencies {
   category: {
     name: string;
     input: [
@@ -65,4 +65,14 @@ export interface CategoryNames {
       }
     ];
   };
+  currencies: Currency;
+}
+
+export interface CategoryNames {
+  name: string;
+  input: [
+    {
+      category: string;
+    }
+  ];
 }
