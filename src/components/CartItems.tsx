@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { RootState } from "../redux/store";
 import { RiDeleteBin3Line } from "react-icons/ri";
 import { Products, Price, Data } from "../utils/types";
-
+import { v4 as uuid } from "uuid";
 import {
   CartDetails,
   ImageQuantityWrapper,
@@ -78,7 +78,7 @@ class CartItems extends Component<IProps, SlideState> {
           <ItemName>{name}</ItemName>
           {prices.map((price: Price) =>
             currency[0] === price.currency.symbol[0] ? (
-              <p className="price" key={item.id}>{`${
+              <p className="price" key={uuid()}>{`${
                 price.currency.symbol
               }${price.amount.toFixed(2)}`}</p>
             ) : (
@@ -86,7 +86,7 @@ class CartItems extends Component<IProps, SlideState> {
             )
           )}
           {attributes.map((attr) => (
-            <Attribute attribute={attr}  />
+            <Attribute attribute={attr} key={attr.id} />
           ))}
 
           <RiDeleteBin3Line
