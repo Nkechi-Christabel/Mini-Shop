@@ -65,10 +65,10 @@ class Header extends Component<IProps, State> {
     const { cart, dispatch, currentCategoryName, categoryNames } = this.props;
     const { checked } = this.state;
 
-    const categoryNamesFiltered = [
+    const categoryNamesFiltered = categoryNames && [
       ...new Set([
         categoryNames?.name,
-        ...categoryNames?.input.map((el) => el.category),
+        ...categoryNames?.input?.map((el) => el.category),
       ]),
     ];
 

@@ -218,12 +218,18 @@ export const Modal = styled.div<{ isOpen: boolean }>`
 
 export const ModalItemsWrapper = styled.div`
   position: absolute;
-  top: 0;
+  top: 0.3rem;
+  right: 0;
+
   padding: 1rem 1rem 5rem;
   background: #fff;
+
   @media screen and (min-width: 500px) {
-    right: 8%;
-    transform: translate(-8%, 0);
+    transform: translate(-6%, 0);
+  }
+
+  @media screen and (min-width: 1350px) {
+    right: 6%;
   }
 `;
 
@@ -236,7 +242,7 @@ export const H5 = styled.h5`
 
 export const ModalItem = styled(CartItem)`
   border-bottom: 0;
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 500px) {
     display: flex;
     justify-content: space-between;
   }
@@ -272,13 +278,13 @@ export const ModalDetails = styled(CartDetails)`
   }
 `;
 export const ModalImageWrapper = styled(CartImageWrapper)`
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 500px) {
     order: 2 !important;
   }
 `;
 
 export const ModalImage = styled(Image)`
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 500px) {
     width: 10rem;
     height: 11rem;
     object-fit: contain;
@@ -287,7 +293,7 @@ export const ModalImage = styled(Image)`
 export const ModalImageQuantityWrapper = styled(ImageQuantityWrapper)`
    order: 1;
 
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 500px) {
      order 2;
     display: flex;
     justify-content: space-between;
@@ -297,11 +303,11 @@ export const ModalImageQuantityWrapper = styled(ImageQuantityWrapper)`
 export const IncreaseDecreaseModal = styled(IncreaseDecreaseWrapper)`
   margin-right: 1rem;
 
-  @media screen and (min-width: 450px) {
+  @media screen and (min-width: 500px) {
     flex-direction: column;
   }
 
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 500px) {
     padding: 2rem 0;
   }
 `;
