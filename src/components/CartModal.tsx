@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { closeModal } from "../redux/features/modalSlice";
 import { RootState } from "../redux/store";
-import { Data, Products } from "../utils/types";
+import { Products } from "../utils/types";
 import { withRouter, Router } from "./WithRouter";
 
 import {
@@ -20,7 +20,6 @@ import { calculateTotals } from "../redux/features/cartSlice";
 import CartModalItems from "./CartModalItems";
 
 interface IProps {
-  data: Data;
   cartItems: Products[];
   dispatch: Dispatch;
   isOpen: boolean;
@@ -76,7 +75,7 @@ class CartModal extends Component<IProps> {
 
           <OverlayTotal className="flex">
             <span>Total:</span>
-            <span>{`${currency}${total.toFixed(2)}`} </span>
+            <span>{`${currency}${total?.toFixed(2)}`} </span>
           </OverlayTotal>
           <CheckViewWrapper className="flex">
             <Link to="/cart">
@@ -92,7 +91,6 @@ class CartModal extends Component<IProps> {
   }
 }
 const mapStateToProps = (state: RootState) => ({
-  data: state.cart.data,
   cartItems: state.cart.cartItems,
   isOpen: state.modal.isOpen,
   currentCategoryName: state.currencies.currentCategoryName,
