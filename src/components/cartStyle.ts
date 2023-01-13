@@ -301,14 +301,11 @@ export const ModalImageQuantityWrapper = styled(ImageQuantityWrapper)`
 `;
 
 export const IncreaseDecreaseModal = styled(IncreaseDecreaseWrapper)`
-  margin-right: 1rem;
+  margin-right: 0;
 
   @media screen and (min-width: 500px) {
     flex-direction: column;
-  }
-
-  @media screen and (max-width: 500px) {
-    padding: 2rem 0;
+    padding: 0;
   }
 `;
 
