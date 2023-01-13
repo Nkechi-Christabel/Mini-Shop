@@ -11,7 +11,7 @@ export const CartItem = styled.div`
   padding: 1.5rem 0;
   border-bottom: 1px solid #e5e5e5;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 568px) {
     display: flex;
     justify-content: space-between;
   }
@@ -63,7 +63,7 @@ export const CartDetails = styled.div`
     ${Delete}
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 567px) {
     order: 2;
   }
 `;
@@ -85,12 +85,14 @@ export const ItemName = styled.p`
 
 export const ImageQuantityWrapper = styled.div`
   display: grid;
-  @media screen and (max-width: 768px) {
-    order: 1;
-  }
-  @media screen and (min-width: 768px) {
+
+  @media screen and (min-width: 568px) {
     display: flex;
     justify-content: space-between;
+  }
+
+  @media screen and (max-width: 567px) {
+    order: 1;
   }
 `;
 
@@ -115,11 +117,11 @@ export const IncreaseDecreaseWrapper = styled.div`
     justify-content: center;
     align-items: center;
   }
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 568px) {
     flex-direction: column;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 567px) {
     order: 2;
     padding: 2rem 0;
   }
@@ -132,19 +134,19 @@ export const CartImageWrapper = styled.div`
 export const Image = styled.img`
 width 100%;
 height: auto;
-  @media screen and (min-width: 768px) {
-    width: 12rem;
-    height: 12rem;
+  @media screen and (min-width: 568px) {
+    width: 10rem;
+    height: 100%;
     object-fit: contain;
   }
 `;
 
 export const PrevNext = styled.div`
   display: flex;
-
   position: absolute;
-  bottom: 1rem;
-  right: 3rem;
+  bottom: 5%;
+  right: 5%;
+  transform: translate(-5%, -5%);
 
   .disabled {
     pointer-events: none;
@@ -285,8 +287,8 @@ export const ModalImageWrapper = styled(CartImageWrapper)`
 
 export const ModalImage = styled(Image)`
   @media screen and (min-width: 500px) {
-    width: 10rem;
-    height: 11rem;
+    width: 9rem;
+    height: 100%;
     object-fit: contain;
   }
 `;
@@ -301,7 +303,7 @@ export const ModalImageQuantityWrapper = styled(ImageQuantityWrapper)`
 `;
 
 export const IncreaseDecreaseModal = styled(IncreaseDecreaseWrapper)`
-  margin-right: 0;
+  margin-right: 1rem;
 
   @media screen and (min-width: 500px) {
     flex-direction: column;
