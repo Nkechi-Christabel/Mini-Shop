@@ -20,8 +20,8 @@ export const H4 = styled.h4`
 `;
 
 export const ImageContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
 `;
 
 export const Image = styled.img`
