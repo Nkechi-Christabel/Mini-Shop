@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Query } from "@apollo/client/react/components";
 import { Data, Products } from "../utils/types";
-
 import ProductItem from "./ProductItem";
 import { H1, H4, ProductGrid, ProductListingWrapper } from "./productStyle";
 import { getData } from "../redux/features/cartSlice";
