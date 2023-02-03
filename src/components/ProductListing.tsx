@@ -75,7 +75,13 @@ class Category extends Component<IProps> {
           const { data, loading, error } = result;
 
           if (loading) return <H4>Loading...</H4>;
-          if (error) return <H4>error</H4>;
+          if (error)
+            return (
+              <H4>
+                <span className="oops">Oops...</span>
+                An error occurred.
+              </H4>
+            );
 
           return (
             <ProductListingWrapper className="container padding">

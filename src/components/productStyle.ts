@@ -12,11 +12,19 @@ export const H1 = styled.h1`
 `;
 
 export const H4 = styled.h4`
+  font-size: 1.2rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: red;
   text-align: center;
   height: 100vh;
+
+  .oops {
+    display: block;
+    padding-bottom: 0.3rem;
+  }
 `;
 
 export const ImageContainer = styled.div`

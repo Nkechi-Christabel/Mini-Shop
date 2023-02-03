@@ -237,8 +237,6 @@ class ProductDescription extends Component<IProps, State> {
               key={attr.id}
               attribute={attr}
               setAttribute={handleSelectedProduct}
-              // size={selectAttrProduct.size}
-              // color={selectAttrProduct.color}
               selectedProduct={selectAttrProduct}
             />
           ))}
