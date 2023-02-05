@@ -17,9 +17,25 @@ export const H4 = styled.h4`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: red;
   text-align: center;
   height: 100vh;
+
+  &.red {
+    color: red;
+  }
+
+  &.colourful {
+    background: linear-gradient(to right, #60d9be, #225488, #63d87c, #236091);
+    background: -webkit-linear-gradient(
+      to right,
+      #60d9be,
+      #225488,
+      #63d87c,
+      #236091
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
   .oops {
     display: block;
@@ -172,6 +188,8 @@ export const ImageBigWrapper = styled.div`
   @media screen and (min-width: 768px) {
     padding-right: 1rem;
     .image-big {
+      display: flex;
+      align-content: flex-start;
       height: 30rem;
       object-fit: contain;
     }

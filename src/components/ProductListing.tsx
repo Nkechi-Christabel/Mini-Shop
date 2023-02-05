@@ -74,10 +74,10 @@ class Category extends Component<IProps> {
         {(result: QueryResult<any, OperationVariables>) => {
           const { data, loading, error } = result;
 
-          if (loading) return <H4>Loading...</H4>;
+          if (loading) return <H4 className="colourful">Loading...</H4>;
           if (error)
             return (
-              <H4>
+              <H4 className="red">
                 <span className="oops">Oops...</span>
                 An error occurred.
               </H4>
