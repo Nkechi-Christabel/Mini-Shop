@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 
 export const ProductListingWrapper = styled.div`
-  padding-top: 0.4rem;
+  padding-top: 8rem;
   padding-bottom: 1rem;
 `;
 
 export const H1 = styled.h1`
-  margin: 3rem 0 1rem;
+  padding-bottom: 0.8rem;
   font-size: 1.6rem;
   font-weight: 400;
 `;
