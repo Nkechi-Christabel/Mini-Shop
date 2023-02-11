@@ -6,7 +6,7 @@ export const ProductListingWrapper = styled.div`
 `;
 
 export const H1 = styled.h1`
-  padding: 3rem 0 1rem;
+  margin: 3rem 0 1rem;
   font-size: 1.6rem;
   font-weight: 400;
 `;
@@ -41,11 +41,6 @@ export const H4 = styled.h4`
     display: block;
     padding-bottom: 0.3rem;
   }
-`;
-
-export const ImageContainer = styled.div`
-  // display: flex;
-  // justify-content: space-between;
 `;
 
 export const Image = styled.img`
