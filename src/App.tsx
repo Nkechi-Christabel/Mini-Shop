@@ -35,6 +35,10 @@ class App extends Component<IProps> {
               path={`/${currentCategoryName}/product-description/:id`}
               element={<ProductDescription />}
             />
+            <Route
+              path={"/product-description/:id"}
+              element={<ProductDescription />}
+            />
           </Routes>
         </Router>
       </div>
