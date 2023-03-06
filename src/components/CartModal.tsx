@@ -16,7 +16,7 @@ import {
   OverlayTotal,
   ViewBag,
 } from "./cartStyle";
-import { calculateTotals } from "../redux/features/cartSlice";
+import { calculateTotals, clearCart } from "../redux/features/cartSlice";
 import CartModalItems from "./CartModalItems";
 
 interface IProps {
@@ -58,6 +58,7 @@ class CartModal extends Component<IProps> {
 
     const handleCheckout = () => {
       alert("Order Successfully placed");
+      dispatch(clearCart());
       dispatch(closeModal());
       router?.navigate(`/${currentCategoryName}`);
     };
